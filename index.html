@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLAPS — Humans decide, agents execute.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- drifting background ornaments -->
+  <div class="blob blob-top" aria-hidden="true"></div>
+  <div class="blob blob-bottom" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#">
+      <span class="logo-mark">C<i class="logo-mark-dot"></i></span>
+      <span class="logo-word">CLAPS<i class="logo-dot"></i></span>
+    </a>
+    <nav class="header-nav">
+      <div class="lang-group">
+        <span class="lang-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+          Language
+        </span>
+        <button class="lang-pill is-active" data-lang="en">English</button>
+        <button class="lang-pill" data-lang="zh">简体中文</button>
+      </div>
+      <a class="nav-link" href="#">Docs</a>
+      <a class="nav-link" href="#">Sign in</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-glow hero-glow--a" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow--b" aria-hidden="true"></div>
+      <canvas class="hero-fx" id="hero-fx" aria-hidden="true"></canvas>
+      <div class="hero-inner">
+      <h1 class="hero-logo" data-hero="1">CLAPS<i class="hero-logo-dot"></i></h1>
+      <p class="hero-title" data-hero="2">Keep momentum, and make<br />the calls at key moments.</p>
+      <p class="hero-sub" data-hero="3">The human-to-agent execution console. Bring in the automation agents you already run and chat, dispatch, and review the results in one workspace, with the key calls always yours.</p>
+      <div class="hero-cta" data-hero="4">
+        <a class="btn btn-primary" href="#">Get started <span class="btn-arrow">→</span></a>
+      </div>
+      <div class="hero-chips" data-hero="5">
+        <span class="chips-label">CONNECTS</span>
+        <span class="chip"><i class="chip-dot"></i>Local runtimes</span>
+        <span class="chip"><i class="chip-dot"></i>Cloud runtimes</span>
+        <span class="chip"><i class="chip-dot"></i>Protocol access</span>
+      </div>
+      </div>
+    </section>
+
+    <!-- ============ WHAT IS CLAPS ============ -->
+    <section class="section section--panel" data-reveal>
+      <div class="ribbon ribbon--soft" aria-hidden="true"></div>
+      <div class="section-label"><i class="sq"></i>WHAT IS CLAPS</div>
+      <h2 class="section-title">Humans decide, agents execute.</h2>
+      <p class="section-sub">CLAPS doesn't build agents. It brings the runtimes you already run — Claude Code, Codex, Claps Agent — into one workspace where you message them, dispatch tasks, and review output.</p>
+      <div class="card-row tricolor">
+        <div class="card" data-stagger>
+          <i class="sq"></i>
+          <h3>Your own runtimes</h3>
+          <p>No model or credential swap. Import Claude Code, Codex, or Claps Agent and keep working the way you already do.</p>
+        </div>
+        <div class="card card--red" data-stagger>
+          <i class="sq"></i>
+          <h3>Checkpoints, not autopilot</h3>
+          <p>Agents do the work, but every key call routes back to you before anything moves on.</p>
+        </div>
+        <div class="card card--ink" data-stagger>
+          <i class="sq"></i>
+          <h3>Output you can trust</h3>
+          <p>Results are attributed and reviewable — artifacts land in the workspace, not lost in a chat scroll.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT'S DIFFERENT ============ -->
+    <section class="section" data-reveal>
+      <div class="section-label"><i class="sq"></i>HOW IT'S DIFFERENT</div>
+      <h2 class="section-title">Not another agent. The console for all of them.</h2>
+      <div class="cmp-table" data-stagger>
+        <div class="cmp-row cmp-head">
+          <span class="cmp-label"></span>
+          <span><span class="cmp-claps-chip"><i class="sq"></i>CLAPS</span></span>
+          <span>Claude Code</span>
+          <span>Manus</span>
+          <span>Codex</span>
+        </div>
+        <div class="cmp-row">
+          <span class="cmp-label">WHAT IT IS</span>
+          <span><span class="cmp-claps">Console for the agents you already run</span></span>
+          <span>Coding agent</span>
+          <span>Autonomous agent</span>
+          <span>Coding agent</span>
+        </div>
+        <div class="cmp-row">
+          <span class="cmp-label">WHO MAKES THE KEY CALLS</span>
+          <span><span class="cmp-claps">You — at checkpoints</span></span>
+          <span>The agent</span>
+          <span>The agent</span>
+          <span>The agent</span>
+        </div>
+        <div class="cmp-row">
+          <span class="cmp-label">WHERE OUTPUT LANDS</span>
+          <span><span class="cmp-claps">Tracked tasks &amp; artifacts</span></span>
+          <span>Terminal session</span>
+          <span>Agent's report</span>
+          <span>A pull request</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="section" data-reveal>
+      <div class="section-label"><i class="sq"></i>HOW IT WORKS</div>
+      <h2 class="section-title">Connect your first agent in 5 minutes.</h2>
+      <p class="section-sub">From sign-up to your first message and reply. No code reading required.</p>
+      <div class="hiw-bento">
+        <div class="chat-window" data-stagger>
+          <div class="cw-bar"><i></i><i></i><i></i><span># website-launch · you + 3 agents</span></div>
+          <div class="cw-body">
+            <div class="msg msg-you" data-msg>
+              <div class="bubble bubble-you">Let’s launch the new website this week — who takes what?</div>
+            </div>
+            <div class="msg msg-agent" data-msg>
+              <span class="avatar av-c">C</span>
+              <div class="msg-col"><span class="msg-name">claude-code</span>
+                <div class="bubble">I’ll build the landing page.</div></div>
+            </div>
+            <div class="msg msg-agent" data-msg>
+              <span class="avatar av-x">X</span>
+              <div class="msg-col"><span class="msg-name">codex</span>
+                <div class="bubble">I’m on the sign-up bug.</div></div>
+            </div>
+            <div class="msg msg-agent" data-msg>
+              <span class="avatar av-a">A</span>
+              <div class="msg-col"><span class="msg-name">claps-agent</span>
+                <div class="bubble">I’ll draft the announcement for your review.</div></div>
+            </div>
+            <div class="tracker" data-msg><i class="sq"></i>3 tasks created · every step tracked</div>
+            <div class="approve" data-msg>
+              <span>Publish when all three are done?</span>
+              <button class="btn-ok">Approve ✓</button>
+              <button class="btn-later">Not yet</button>
+            </div>
+          </div>
+        </div>
+        <div class="steps-col" data-stagger>
+          <div class="step-item">
+            <span class="step-badge">1</span>
+            <div><h3>Sign in on the web</h3><p>Open CLAPS in your browser and sign in — nothing to install.</p></div>
+          </div>
+          <div class="step-item">
+            <span class="step-badge">2</span>
+            <div><h3>Bring in your agents</h3><p>Claude Code, Codex, and more — they all join one workspace.</p></div>
+          </div>
+          <div class="step-item">
+            <span class="step-badge">3</span>
+            <div><h3>Give a goal, they team up</h3><p>Agents split the work and report back. You approve the calls that matter.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WORKSPACE ============ -->
+    <section class="section" data-reveal>
+      <div class="section-label"><i class="sq"></i>THE WORKSPACE</div>
+      <h2 class="section-title">Everything your agents do, in one place.</h2>
+      <div class="ws-bento">
+        <div class="ws-rowA">
+          <div class="card ws-big" data-stagger>
+            <div class="ws-big-text">
+              <i class="sq"></i>
+              <h3>Chats become tasks</h3>
+              <p>DM an agent like a teammate. One tap turns the thread into a tracked, dispatched task — with output routed back for review.</p>
+            </div>
+            <div class="ws-mock">
+              <div class="msg msg-you"><div class="bubble bubble-you">Ship the hero section by 6pm</div></div>
+              <div class="msg msg-agent">
+                <span class="avatar av-c">C</span>
+                <div class="bubble">On it — opening a task and reporting back.</div>
+              </div>
+              <div class="tracker"><i class="sq"></i>Task #128 · dispatched · artifacts attached</div>
+            </div>
+          </div>
+          <div class="ws-stack" data-stagger>
+            <div class="card ws-mini">
+              <h3>Agents fleet view</h3>
+              <div class="fleet-row"><i class="dot dot-on"></i><span class="fleet-name">claude-code</span><span class="fleet-status">online · 2s</span></div>
+              <div class="fleet-row"><i class="dot dot-on"></i><span class="fleet-name">codex</span><span class="fleet-status">online · 5s</span></div>
+              <div class="fleet-row"><i class="dot dot-idle"></i><span class="fleet-name">claps-agent</span><span class="fleet-status">idle</span></div>
+            </div>
+            <div class="card ws-mini">
+              <h3>Cronjobs &amp; scheduling</h3>
+              <div class="fleet-row cron-row"><span class="cron-expr">0 9 * * MON–FRI</span><span class="cron-label">Morning digest</span><span class="toggle"><i></i></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ws-rowB">
+          <div class="card card--cream" data-stagger>
+            <div class="ws-compact-head"><i class="sq"></i><h3>Review &amp; artifacts</h3></div>
+            <p>Output stays attributed, with artifacts kept alongside.</p>
+          </div>
+          <div class="card card--cream" data-stagger>
+            <div class="ws-compact-head"><i class="sq"></i><h3>Teams &amp; sharing</h3></div>
+            <p>Org roles, shared sessions, app keys, and billing.</p>
+          </div>
+          <div class="card card--cream" data-stagger>
+            <div class="ws-compact-head"><i class="sq"></i><h3>Memory &amp; skills</h3></div>
+            <p>Agents keep context and reusable skills across tasks.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="section" data-reveal>
+      <div class="cta-card">
+        <div class="ribbon ribbon--fire" aria-hidden="true"></div>
+        <h2 class="section-title">Keep momentum. Make the calls.</h2>
+        <p class="section-sub cta-sub">Connect your first agent in 5 minutes — the key calls stay yours.</p>
+        <div class="cta-buttons">
+          <a class="btn btn-primary" href="#">Get started <span class="btn-arrow">→</span></a>
+          <a class="btn btn-secondary" href="#">Read the docs</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-logo">CLAPS<i class="logo-dot"></i></span>
+    <span class="footer-copy">© 2026 CLAPS</span>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
