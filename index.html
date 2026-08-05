@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
 </head>
 <body>
   <!-- drifting background ornaments -->
@@ -16,8 +17,8 @@
 
   <header class="site-header">
     <a class="logo" href="#">
-      <span class="logo-mark">C<i class="logo-mark-dot"></i></span>
-      <span class="logo-word">CLAPS<i class="logo-dot"></i></span>
+      <img class="logo-img" src="logo.svg" alt="CLAPS logo" />
+      <span class="logo-word">CLAPS</span>
     </a>
     <nav class="header-nav">
       <div class="lang-group">
@@ -40,7 +41,7 @@
       <div class="hero-glow hero-glow--b" aria-hidden="true"></div>
       <canvas class="hero-fx" id="hero-fx" aria-hidden="true"></canvas>
       <div class="hero-inner">
-      <h1 class="hero-logo" data-hero="1">CLAPS<i class="hero-logo-dot"></i></h1>
+      <h1 class="hero-logo" data-hero="1">CLAPS<img class="hero-logo-mark" src="logo.svg" alt="" /></h1>
       <p class="hero-title" data-hero="2">Keep momentum, and make<br />the calls at key moments.</p>
       <p class="hero-sub" data-hero="3">The human-to-agent execution console. Bring in the automation agents you already run and chat, dispatch, and review the results in one workspace, with the key calls always yours.</p>
       <div class="hero-cta" data-hero="4">
@@ -64,17 +65,17 @@
       <p class="section-sub">CLAPS doesn't build agents. It brings the runtimes you already run — Claude Code, Codex, Claps Agent — into one workspace where you message them, dispatch tasks, and review output.</p>
       <div class="card-row tricolor">
         <div class="card" data-stagger>
-          <i class="sq"></i>
+          <svg class="petal" viewBox="0 0 20 20.36" aria-hidden="true"><path d="M3.7651 0.0183629C4.39429 -0.0323625 4.88082 0.0193154 5.47524 0.207035C7.52544 0.854616 8.10182 2.38858 9.05209 4.08437C9.55029 4.97682 10.0977 5.84088 10.6917 6.67261C11.824 8.22455 13.1551 9.62116 14.651 10.8265C15.5683 11.5715 16.5419 12.2444 17.5631 12.8391C19.4259 13.9453 21.3427 14.5793 18.7107 16.5437C17.392 17.5279 16.2597 18.2078 14.7842 18.9368C4.9403 23.377 1.74121 16.7597 0.318163 7.99527C-0.20457 4.77612 -0.633711 0.574257 3.7651 0.0183629Z" fill="currentColor"/></svg>
           <h3>Your own runtimes</h3>
           <p>No model or credential swap. Import Claude Code, Codex, or Claps Agent and keep working the way you already do.</p>
         </div>
         <div class="card card--red" data-stagger>
-          <i class="sq"></i>
+          <svg class="petal" viewBox="0 0 20 20.36" aria-hidden="true"><path d="M3.7651 0.0183629C4.39429 -0.0323625 4.88082 0.0193154 5.47524 0.207035C7.52544 0.854616 8.10182 2.38858 9.05209 4.08437C9.55029 4.97682 10.0977 5.84088 10.6917 6.67261C11.824 8.22455 13.1551 9.62116 14.651 10.8265C15.5683 11.5715 16.5419 12.2444 17.5631 12.8391C19.4259 13.9453 21.3427 14.5793 18.7107 16.5437C17.392 17.5279 16.2597 18.2078 14.7842 18.9368C4.9403 23.377 1.74121 16.7597 0.318163 7.99527C-0.20457 4.77612 -0.633711 0.574257 3.7651 0.0183629Z" fill="currentColor"/></svg>
           <h3>Checkpoints, not autopilot</h3>
           <p>Agents do the work, but every key call routes back to you before anything moves on.</p>
         </div>
         <div class="card card--ink" data-stagger>
-          <i class="sq"></i>
+          <svg class="petal" viewBox="0 0 20 20.36" aria-hidden="true"><path d="M3.7651 0.0183629C4.39429 -0.0323625 4.88082 0.0193154 5.47524 0.207035C7.52544 0.854616 8.10182 2.38858 9.05209 4.08437C9.55029 4.97682 10.0977 5.84088 10.6917 6.67261C11.824 8.22455 13.1551 9.62116 14.651 10.8265C15.5683 11.5715 16.5419 12.2444 17.5631 12.8391C19.4259 13.9453 21.3427 14.5793 18.7107 16.5437C17.392 17.5279 16.2597 18.2078 14.7842 18.9368C4.9403 23.377 1.74121 16.7597 0.318163 7.99527C-0.20457 4.77612 -0.633711 0.574257 3.7651 0.0183629Z" fill="currentColor"/></svg>
           <h3>Output you can trust</h3>
           <p>Results are attributed and reviewable — artifacts land in the workspace, not lost in a chat scroll.</p>
         </div>
@@ -88,7 +89,7 @@
       <div class="cmp-table" data-stagger>
         <div class="cmp-row cmp-head">
           <span class="cmp-label"></span>
-          <span><span class="cmp-claps-chip"><i class="sq"></i>CLAPS</span></span>
+          <span><span class="cmp-claps-chip"><svg class="petal petal-chip" viewBox="0 0 20 20.36" aria-hidden="true"><path d="M3.7651 0.0183629C4.39429 -0.0323625 4.88082 0.0193154 5.47524 0.207035C7.52544 0.854616 8.10182 2.38858 9.05209 4.08437C9.55029 4.97682 10.0977 5.84088 10.6917 6.67261C11.824 8.22455 13.1551 9.62116 14.651 10.8265C15.5683 11.5715 16.5419 12.2444 17.5631 12.8391C19.4259 13.9453 21.3427 14.5793 18.7107 16.5437C17.392 17.5279 16.2597 18.2078 14.7842 18.9368C4.9403 23.377 1.74121 16.7597 0.318163 7.99527C-0.20457 4.77612 -0.633711 0.574257 3.7651 0.0183629Z" fill="currentColor"/></svg>CLAPS</span></span>
           <span>Claude Code<em class="cmp-imports">✓ imports into CLAPS</em></span>
           <span>Manus</span>
           <span>Codex<em class="cmp-imports">✓ imports into CLAPS</em></span>

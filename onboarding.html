@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLAPS — 首次进入体验 Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="onboarding.css" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+</head>
+<body>
+  <div class="app">
+    <!-- ============ left: team + channels ============ -->
+    <aside class="side">
+      <div class="side-logo"><img src="logo.svg" alt="" style="width:26px;height:26px" />CLAPS</div>
+
+      <div class="side-section">
+        <div class="side-title">你的团队</div>
+        <div class="member"><span class="avatar av-lead">L</span><span class="m-name">组长 · lead</span><i class="dot on"></i></div>
+        <div class="member"><span class="avatar av-res">R</span><span class="m-name">调研 · research</span><i class="dot on"></i></div>
+        <div class="member"><span class="avatar av-wri">W</span><span class="m-name">文案 · writer</span><i class="dot on"></i></div>
+        <div class="member"><span class="avatar av-cod">C</span><span class="m-name">工程 · coder</span><i class="dot on"></i></div>
+        <div class="member"><span class="avatar av-des">D</span><span class="m-name">设计 · designer</span><i class="dot on"></i></div>
+        <div class="side-hint">云端 agent，已自动为你配好</div>
+        <button class="add-row" id="addAgentBtn">＋ 接入我的 agent</button>
+      </div>
+
+      <div class="side-section">
+        <div class="side-title">频道</div>
+        <div id="channelList"><div class="channel active"># first-mission</div></div>
+        <button class="add-row" id="addGroupBtn">＋ 新建群组</button>
+      </div>
+
+      <div class="side-section locked">
+        <div class="side-title">更多 <span class="lock">完成首单后解锁</span></div>
+        <div class="channel dim">Projects</div>
+        <div class="channel dim">Cronjobs</div>
+        <div class="channel dim">App Keys</div>
+      </div>
+
+      <div class="side-me"><span class="avatar av-me">你</span><span class="m-name">Owner</span></div>
+    </aside>
+
+    <!-- ============ center: the conversation IS the onboarding ============ -->
+    <main class="chat">
+      <header class="chat-head"># first-mission <span class="chat-sub">你 + 3 个 agents</span></header>
+      <div class="chat-body" id="chatBody"></div>
+      <footer class="chat-input">
+        <input id="input" type="text" placeholder="给你的团队一个目标…" disabled />
+        <button class="send" disabled>发送</button>
+      </footer>
+    </main>
+
+    <!-- ============ right: tasks materialize here ============ -->
+    <aside class="tasks">
+      <div class="tasks-title">任务</div>
+      <div class="tasks-empty" id="tasksEmpty">还没有任务。<br />聊天里派出的活，会变成卡片出现在这里。</div>
+      <div id="taskList"></div>
+    </aside>
+  </div>
+
+  <!-- ============ 进门弹窗 ============ -->
+  <div class="overlay" id="welcomeOverlay">
+    <div class="modal">
+      <img src="logo.svg" alt="" style="width:48px;height:48px;margin:0 auto 4px;display:block" />
+      <h2>欢迎来到 CLAPS 👋</h2>
+      <p class="modal-sub">你的 agent 团队已经就位。<br />花 60 秒，和他们一起完成你的第一单？</p>
+      <button class="btn-primary big" id="startBtn">开始第一单（推荐）</button>
+      <button class="btn-ghost" id="skipBtn">跳过，直接进工作台</button>
+    </div>
+  </div>
+
+  <!-- ============ 接入自己的 agent ============ -->
+  <div class="overlay hidden" id="connectOverlay">
+    <div class="modal modal-wide">
+      <button class="modal-close" id="connectClose">×</button>
+      <h2>把你自己的 agent 拉进团队</h2>
+      <p class="modal-sub">现有成员不受影响——接进来的会成为新成员，一起出现在群里。</p>
+      <div id="platStep">
+        <button class="plat" data-plat="claude"><span class="plat-name">Claude Code</span><span class="plat-desc">跑在你电脑上 · 用你自己的账号，我们碰不到你的 key</span></button>
+        <button class="plat" data-plat="codex"><span class="plat-name">Codex</span><span class="plat-desc">跑在你电脑上 · 同样只需一条命令</span></button>
+        <button class="plat" data-plat="cloud"><span class="plat-name">Claps Agent（云端）</span><span class="plat-desc">官方云上托管 · 无需安装任何东西</span></button>
+      </div>
+      <div id="cmdStep" class="hidden">
+        <p class="cmd-hint">在你电脑的终端里跑这一行（就这一步）：</p>
+        <code class="cmd" id="cmdText"></code>
+        <button class="btn-primary" id="ranBtn">我跑好了 ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 新建群组 ============ -->
+  <div class="overlay hidden" id="groupOverlay">
+    <div class="modal">
+      <button class="modal-close" id="groupClose">×</button>
+      <h2>新建群组</h2>
+      <p class="modal-sub">你的 agents 都已备好，建好群 @ 他们就能开工。</p>
+      <input class="group-input" id="groupName" placeholder="群组名，比如：网站改版" />
+      <div class="group-members">
+        <span class="avatar av-lead">L</span><span class="avatar av-res">R</span><span class="avatar av-wri">W</span><span class="avatar av-cod">C</span><span class="avatar av-des">D</span>
+        <span class="gm-hint">5 位成员将自动加入</span>
+      </div>
+      <button class="btn-primary" id="createGroupBtn">创建群组</button>
+    </div>
+  </div>
+
+  <script src="onboarding.js"></script>
+</body>
+</html>

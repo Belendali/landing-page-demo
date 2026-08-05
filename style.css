@@ -90,24 +90,12 @@ body {
   display: flex; align-items: center; gap: 10px;
   text-decoration: none; color: var(--ink);
 }
-.logo-mark {
-  position: relative;
-  width: 29px; height: 29px;
-  background: var(--ink);
-  color: #fff;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 15px;
+.logo-img {
+  width: 30px; height: 30px;
+  display: block;
   transition: transform 0.35s var(--ease-out);
 }
-.logo:hover .logo-mark { transform: rotate(-8deg) scale(1.06); }
-.logo-mark-dot {
-  position: absolute;
-  right: 5px; bottom: 5px;
-  width: 3.7px; height: 3.7px;
-  border-radius: 1px;
-  background: var(--red);
-}
+.logo:hover .logo-img { transform: rotate(-18deg) scale(1.08); }
 .logo-word {
   font-weight: 700; font-size: 19px; letter-spacing: -0.5px;
 }
@@ -242,12 +230,11 @@ body {
   line-height: 1.2;
   display: inline-block;
 }
-.hero-logo-dot {
+.hero-logo-mark {
   display: inline-block;
-  width: 29px; height: 29px;
-  border-radius: 5px;
-  background: var(--red);
-  margin-left: 10px;
+  width: 44px; height: 44px;
+  margin-left: 12px;
+  transform: translateY(-6px);
   animation: heartbeat 2.8s ease-in-out 1.2s infinite;
 }
 @keyframes heartbeat {
@@ -449,6 +436,16 @@ body {
   line-height: 1.52;
   color: var(--muted);
 }
+/* logo petal accents */
+.petal {
+  width: 20px; height: 20px;
+  color: var(--ink);
+  flex: none;
+}
+.card--red .petal { color: var(--bg); }
+.card--ink .petal { color: #e07a5f; }
+.petal-chip { width: 13px; height: 13px; color: #f5f3ed; margin-right: 2px; }
+
 /* tricolor cards — What is CLAPS */
 .card--red {
   background: linear-gradient(135deg, #c74f38 0%, #992b1a 100%);
