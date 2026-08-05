@@ -31,7 +31,11 @@ body {
 .side-logo {
   display: flex; align-items: center; gap: 8px;
   font-weight: 700; font-size: 17px; letter-spacing: -0.4px;
+  color: var(--ink); text-decoration: none;
+  border-radius: 8px;
+  transition: opacity 0.2s;
 }
+.side-logo:hover { opacity: 0.7; }
 .logo-mark {
   position: relative;
   width: 26px; height: 26px;
