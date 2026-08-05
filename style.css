@@ -303,6 +303,20 @@ body {
   border-radius: 1.5px;
   background: var(--red);
 }
+.chips-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-left: 4px;
+}
+.cmp-imports {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.3px;
+  color: var(--red);
+  margin-top: 3px;
+}
 
 /* ============ buttons ============ */
 .btn {
