@@ -109,11 +109,16 @@ document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el))
   requestAnimationFrame(frame);
 })();
 
-// language pill toggle (visual only for now)
+// language toggle — the choice carries into the product (onboarding reads it)
 const pills = document.querySelectorAll('.lang-pill');
+const savedLang = localStorage.getItem('claps-lang');
+if (savedLang) {
+  pills.forEach((p) => p.classList.toggle('is-active', p.dataset.lang === savedLang));
+}
 pills.forEach((pill) => {
   pill.addEventListener('click', () => {
     pills.forEach((p) => p.classList.remove('is-active'));
     pill.classList.add('is-active');
+    localStorage.setItem('claps-lang', pill.dataset.lang);
   });
 });
