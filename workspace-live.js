@@ -86,6 +86,69 @@ function tick() {
   requestAnimationFrame(tick);
 }
 
+/* =========================================================
+   环境层：整块对话区的背景点阵
+   思考 = 圆点呼吸波 / 执行 = 方块推进 / 待机 = 极淡静止
+   消息本身保持普通气泡，状态交给背景说
+   ========================================================= */
+const bg = document.getElementById('bgField');
+const bgx = bg.getContext('2d');
+const BG = { mode: 'idle', progress: 0, t: 0, alpha: 0, target: 0 };
+
+function bgSize() {
+  const w = bg.clientWidth, h = bg.clientHeight;
+  if (!w || !h) return false;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  bg.width = w * dpr; bg.height = h * dpr;
+  bgx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  BG.w = w; BG.h = h;
+  return true;
+}
+function bgSet(mode, progress) {
+  BG.mode = mode;
+  if (progress !== undefined) BG.progress = progress;
+  BG.target = mode === 'idle' ? 0.1 : mode === 'think' ? 0.62 : 0.5;
+}
+function bgDraw() {
+  if ((!BG.w || bg.width === 0) && !bgSize()) { requestAnimationFrame(bgDraw); return; }
+  const { w, h } = BG;
+  bgx.clearRect(0, 0, w, h);
+  BG.t += REDUCED ? 0 : 0.04;
+  BG.alpha += (BG.target - BG.alpha) * 0.05;
+
+  const P = 15;
+  const cols = Math.ceil(w / P), rows = Math.ceil(h / P);
+  for (let x = 0; x < cols; x++) {
+    for (let y = 0; y < rows; y++) {
+      const cx = x * P + P / 2, cy = y * P + P / 2;
+      if (BG.mode === 'exec') {
+        // 方块由左向右推进，整块背景就是这次运行的进度
+        const front = BG.progress * cols;
+        const d = front - x;
+        let a, c = COL.acc, s = 3.4;
+        if (d > 1.5) a = 0.5;
+        else if (d > -0.8) a = 0.3 + 0.7 * Math.abs(Math.sin(BG.t * 3 + y * 0.7));
+        else { a = 0.16; c = COL.faint; s = 2.6; }
+        bgx.fillStyle = `rgba(${c},${(a * BG.alpha).toFixed(3)})`;
+        bgx.beginPath();
+        bgx.roundRect ? bgx.roundRect(cx - s / 2, cy - s / 2, s, s, 1.1) : bgx.rect(cx - s / 2, cy - s / 2, s, s);
+        bgx.fill();
+      } else {
+        // 圆点呼吸波：来回扫，没有方向
+        const wave = Math.sin(x * 0.34 - BG.t * 1.35 + Math.sin(y * 0.5 + BG.t * 0.35));
+        const e = (wave + 1) / 2;
+        const r = 0.7 + e * 1.7;
+        const c = e > 0.74 ? COL.olive : COL.ink;
+        bgx.fillStyle = `rgba(${c},${((0.08 + e * 0.42) * BG.alpha).toFixed(3)})`;
+        bgx.beginPath();
+        bgx.arc(cx, cy, r, 0, 6.283);
+        bgx.fill();
+      }
+    }
+  }
+  requestAnimationFrame(bgDraw);
+}
+
 /* ============ Clover 式失焦像素团 ============ */
 const blob = document.getElementById('heroBlob');
 const bctx = blob.getContext('2d');
@@ -233,7 +296,7 @@ async function run() {
   taskEmpty.style.display = ''; artEmpty.style.display = '';
   taskCount.textContent = '0';
   gstate = {}; renderGraph();
-  setHero(0, '还没有开始'); setStage('待命', [COL.faint, COL.faint]);
+  setHero(0, '还没有开始'); setStage('待命', [COL.faint, COL.faint]); bgSet('idle');
   ['codex', 'claps', 'claude'].forEach((k) => setMember(k, '待命', false));
 
   await sleep(500); if (!alive()) return;
@@ -242,12 +305,13 @@ async function run() {
   addRow(`<div class="bub">帮我把 TikTok 宠物赛道的爆款账号整理一下，出一份下周能用的选题清单。</div>`, 'you');
   await sleep(900); if (!alive()) return;
 
-  // 2) 组长思考 —— 圆点呼吸
+  // 2) 组长思考 —— 背景切成圆点呼吸波
   setStage('思考中', [COL.olive, COL.ink]);
   setHero(4, '正在理解目标');
-  const think = agentRow('lead', `<div class="think-card">
-      <div class="think-head"><b>正在拆解目标</b><span id="thinkNote">读取项目记忆…</span></div>
-      <canvas class="dotfield" data-mode="think" height="34"></canvas>
+  bgSet('think');
+  const think = agentRow('lead', `<div class="bub">
+      <b>正在拆解目标</b><span class="ell"><i></i><i></i><i></i></span>
+      <div class="think-note" id="thinkNote">读取项目记忆…</div>
       <div class="think-note" id="thinkLog">memory: 宠物赛道 → 北美 / 东南亚</div>
     </div>`);
   const notes = [
@@ -271,6 +335,7 @@ async function run() {
   addTask('t3', '产出下周选题清单', 'claude');
   gset('goal', 'done');
   setStage('执行中', [COL.acc, COL.olive]);
+  bgSet('exec', 0);
   await sleep(700); if (!alive()) return;
 
   // 4) 三个执行体依次开工 —— 方块推进
@@ -291,13 +356,13 @@ async function run() {
       gset(j.gid, 'run');
       const card = agentRow(j.key, `<div class="work-card">
           <div class="work-top">
-            <div><div class="work-name">${AG[j.key].name}</div><div class="work-task">${j.task}</div></div>
+            <div><div class="work-task">${j.task}</div></div>
             <span class="work-pct">0%</span>
           </div>
-          <canvas class="dotfield" data-mode="exec" data-progress="0" height="34"></canvas>
+          <div class="prog"><i></i></div>
           <div class="work-log">${j.logs[0]}</div>
         </div>`);
-      const cv = card.querySelector('canvas');
+      const barI = card.querySelector('.prog i');
       const pct = card.querySelector('.work-pct');
       const log = card.querySelector('.work-log');
       const t0 = performance.now();
@@ -305,7 +370,7 @@ async function run() {
         const step = () => {
           if (!alive()) return done();
           const p = Math.min(1, (performance.now() - t0) / j.dur);
-          cv.__f && (cv.__f.progress = p);
+          barI.style.width = (p * 100).toFixed(1) + '%';
           pct.textContent = Math.round(p * 100) + '%';
           log.textContent = j.logs[Math.min(j.logs.length - 1, Math.floor(p * j.logs.length))];
           if (p < 1) requestAnimationFrame(step); else done();
@@ -329,6 +394,7 @@ async function run() {
       if (!alive()) return done();
       const p = Math.min(1, (performance.now() - t0) / total);
       setHero(12 + p * 76, p < 1 ? '3 个执行体正在并行工作' : '等待你的确认');
+      bgSet('exec', p);   // 整块背景就是这次运行的进度
       if (p < 1) requestAnimationFrame(step); else done();
     };
     step();
@@ -348,6 +414,7 @@ async function run() {
   tkStatus('t3', 'review', '待审查');
   setStage('等你拍板', [COL.acc, COL.acc]);
   setHero(88, '等待你的确认');
+  bgSet('idle');   // 活干完了，背景安静下来，等人
   await sleep(600); if (!alive()) return;
 
   const bar = document.createElement('div');
@@ -418,6 +485,9 @@ window.addEventListener('resize', () => fields.forEach((f) => f.size()));
 
 mountFields();
 renderGraph();
+bgSize();
 requestAnimationFrame(tick);
 requestAnimationFrame(drawBlob);
+requestAnimationFrame(bgDraw);
+window.addEventListener('resize', bgSize);
 run();
