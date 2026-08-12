@@ -231,9 +231,15 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const scroll = () => { chatBody.scrollTop = chatBody.scrollHeight; };
 const setStage = (t, pal) => { heroStage.textContent = t; if (pal) blobPal = pal; };
 const setHero = (p, s) => { heroNum.textContent = Math.round(p); heroSub.textContent = s; };
-function setMember(k, t, busy) {
-  const el = document.querySelector(`[data-mst="${k}"]`);
-  if (el) { el.textContent = t; el.classList.toggle('busy', !!busy); }
+// 右栏执行体卡：状态 / 当前在做什么 / 用的哪个模型
+function setExec(k, status, task, model) {
+  const card = document.querySelector(`[data-mst="${k}"]`);
+  if (!card) return;
+  const busy = status === '执行中';
+  card.classList.toggle('busy', busy);
+  card.querySelector('.ex-st').textContent = status;
+  if (task !== undefined) card.querySelector('[data-extask]').textContent = task;
+  if (model !== undefined) card.querySelector('[data-exmodel]').textContent = model;
 }
 
 /* ============ 执行图：两幕 + 反馈回路 ============ */
@@ -334,7 +340,7 @@ function addMemory(html) {
 let runToken = 0;
 
 async function runJob(j, alive) {
-  setMember(j.key, '执行中', true);
+  setExec(j.key, '执行中', j.task, j.pick.name);
   tkStatus(j.tk, 'doing', '进行中', `模型 ${j.pick.name}`);
   gset(j.gid, 'run');
   const card = agentRow(j.key, `<div class="work-card">
@@ -361,7 +367,7 @@ async function runJob(j, alive) {
   if (!alive()) return;
   card.querySelector('.work-card').classList.add('done');
   pct.textContent = '完成 ✓';
-  setMember(j.key, '待命', false);
+  setExec(j.key, '已完成', j.task);
   tkStatus(j.tk, 'done', '已完成', `模型 ${j.pick.name} · 耗时 ${(j.dur / 1000).toFixed(1)}s`);
   gset(j.gid, 'done');
 }
@@ -376,7 +382,7 @@ async function run() {
   taskEmpty.style.display = ''; artEmpty.style.display = '';
   taskCount.textContent = '0'; gstate = {}; renderGraph();
   setHero(0, '还没有开始'); setStage('待命', [COL.faint, COL.faint]); bgSet('idle');
-  ['codex', 'claps', 'claude'].forEach((k) => setMember(k, '待命', false));
+  ['codex', 'claps', 'claude'].forEach((k) => setExec(k, '待命', '还没有派活', '—'));
   await sleep(500); if (!alive()) return;
 
   /* ---------- 第一幕：从需求到 v1 ---------- */
@@ -594,6 +600,11 @@ document.querySelectorAll('.ctx-tab').forEach((tab) => tab.addEventListener('cli
   document.querySelectorAll('.pane').forEach((p) => p.classList.remove('active'));
   tab.classList.add('active');
   document.querySelector(`[data-pane="${tab.dataset.tab}"]`).classList.add('active');
+}));
+// 任务 tab 内的 列表 / 执行图 切换
+document.querySelectorAll('.vs-btn').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('.vs-btn').forEach((x) => x.classList.toggle('active', x === b));
+  document.querySelectorAll('.tview').forEach((v) => v.classList.toggle('active', v.dataset.v === b.dataset.v));
 }));
 document.getElementById('replayBtn').addEventListener('click', run);
 window.addEventListener('resize', () => { fields.forEach((f) => f.size()); bgSize(); });

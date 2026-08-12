@@ -168,6 +168,25 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 canvas.dotfield { display: block; width: 100%; margin-top: 10px; }
 
+/* ===== 右栏：这个对话里的执行体 ===== */
+.exec-card { background: var(--ground-1); border-radius: var(--r-md); padding: 13px 14px; margin-bottom: 9px; transition: background 0.3s var(--ease); }
+.exec-card.busy { background: var(--acc-soft); }
+.ex-top { display: flex; align-items: center; gap: 8px; }
+.ex-n { font-size: 12.5px; font-weight: 600; flex: 1; }
+.ex-st { font-family: "JetBrains Mono", monospace; font-size: 9px; color: var(--faint); background: rgba(255,255,255,0.7); border-radius: 999px; padding: 3px 9px; }
+.exec-card.busy .ex-st { background: var(--acc); color: #fff; }
+.ex-task { font-size: 11.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+.exec-card.busy .ex-task { color: #8a4526; }
+.ex-foot { display: flex; align-items: center; gap: 8px; margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line); font-family: "JetBrains Mono", monospace; font-size: 9.5px; color: var(--faint); }
+.ex-hb { margin-left: auto; }
+.add-exec { width: 100%; text-align: left; font-size: 11.5px; color: var(--faint); padding: 10px 12px; border-radius: var(--r-md); border: 1.5px dashed var(--line); margin-top: 2px; }
+.add-exec:hover { color: var(--acc); border-color: var(--acc); }
+.tview { display: none; }
+.tview.active { display: block; animation: fade 0.25s var(--ease); }
+.view-switch { display: flex; gap: 3px; background: var(--ground-1); border-radius: 999px; padding: 3px; margin-bottom: 13px; }
+.vs-btn { flex: 1; font-size: 11.5px; color: var(--muted); border-radius: 999px; padding: 6px; }
+.vs-btn.active { background: var(--card); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgba(120,80,50,0.1); }
+
 /* ===== 模型选择：Auto 自动匹配 + 悬停说明 ===== */
 .model-wrap { position: relative; }
 .model-btn { display: flex; align-items: center; gap: 6px; }

@@ -65,13 +65,6 @@
         </div>
       </div>
 
-      <div class="s-block">
-        <div class="s-head"><span class="s-title">我的团队</span><span class="s-count">3 / 3</span></div>
-        <a class="mem"><i class="ag ag-cx"></i><span class="m-name">codex_fly</span><span class="m-st" data-mst="codex">抓取中</span></a>
-        <a class="mem"><i class="ag ag-ca"></i><span class="m-name">claps-agent</span><span class="m-st" data-mst="claps">分析中</span></a>
-        <a class="mem"><i class="ag ag-cc"></i><span class="m-name">claude-code</span><span class="m-st" data-mst="claude">待命</span></a>
-        <button class="s-add">＋ 接入执行体</button>
-      </div>
     </div>
   </aside>
 
@@ -123,23 +116,48 @@
     </div>
 
     <div class="ctx-tabs">
-      <button class="ctx-tab active" data-tab="task">任务 <i class="t-n" id="taskCount">0</i></button>
-      <button class="ctx-tab" data-tab="graph">执行图</button>
+      <button class="ctx-tab active" data-tab="run">执行体 <i class="t-n">3</i></button>
+      <button class="ctx-tab" data-tab="task">任务 <i class="t-n" id="taskCount">0</i></button>
       <button class="ctx-tab" data-tab="art">产出</button>
       <button class="ctx-tab" data-tab="mem">记忆</button>
     </div>
 
     <div class="ctx-body">
-      <section class="pane active" data-pane="task">
-        <div class="p-title">这个对话产生的任务</div>
-        <div id="taskList"></div>
-        <div class="empty" id="taskEmpty">派出的活会变成任务卡出现在这里</div>
+      <section class="pane active" data-pane="run">
+        <div class="p-title">在这个对话里干活的</div>
+        <div class="exec-card" data-mst="codex">
+          <div class="ex-top"><i class="ag ag-cx"></i><span class="ex-n">codex_fly</span><span class="ex-st">待命</span></div>
+          <div class="ex-task" data-extask>还没有派活</div>
+          <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 2s</span></div>
+        </div>
+        <div class="exec-card" data-mst="claps">
+          <div class="ex-top"><i class="ag ag-ca"></i><span class="ex-n">claps-agent</span><span class="ex-st">待命</span></div>
+          <div class="ex-task" data-extask>还没有派活</div>
+          <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 5s</span></div>
+        </div>
+        <div class="exec-card" data-mst="claude">
+          <div class="ex-top"><i class="ag ag-cc"></i><span class="ex-n">claude-code</span><span class="ex-st">待命</span></div>
+          <div class="ex-task" data-extask>还没有派活</div>
+          <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 2s · 本机</span></div>
+        </div>
+        <button class="add-exec">＋ 从团队里加人</button>
+        <a class="p-all" data-goto="fleet">在「执行体」里看全部 →</a>
       </section>
 
-      <section class="pane" data-pane="graph">
-        <div class="p-title">执行图</div>
-        <div id="graphWrap" class="graph-wrap"></div>
-        <div class="g-note">人的决策是图里的一个节点，不是图外的旁观者。</div>
+      <section class="pane" data-pane="task">
+        <div class="view-switch">
+          <button class="vs-btn active" data-v="list">列表</button>
+          <button class="vs-btn" data-v="graph">执行图</button>
+        </div>
+        <div class="tview active" data-v="list">
+          <div class="p-title">这个对话产生的任务</div>
+          <div id="taskList"></div>
+          <div class="empty" id="taskEmpty">派出的活会变成任务卡出现在这里</div>
+        </div>
+        <div class="tview" data-v="graph">
+          <div id="graphWrap" class="graph-wrap"></div>
+          <div class="g-note">人的决策是图里的一个节点，不是图外的旁观者。</div>
+        </div>
       </section>
 
       <section class="pane" data-pane="art">
