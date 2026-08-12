@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLAPS — 工作台信息架构改版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="workspace.css" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+</head>
+<body>
+
+<!-- ============ 顶栏：只剩身份与全局工具 ============ -->
+<header class="topbar">
+  <a class="tb-logo" href="index.html" title="回到首页">
+    <img src="logo.svg" alt="" /><span>CLAPS</span>
+  </a>
+  <button class="tb-org">2214045646yy@gmail.com <span class="caret">▾</span></button>
+
+  <div class="tb-right">
+    <button class="tb-search">搜索 <kbd>⌘K</kbd></button>
+    <span class="tb-quota">额度 <b>MAX</b></span>
+    <button class="tb-icon" title="通知">🔔<i class="badge">1</i></button>
+    <button class="tb-icon" title="文档">📖</button>
+    <span class="tb-avatar">2</span>
+  </div>
+</header>
+
+<div class="app">
+
+  <!-- ============ 左栏：对话是主体，团队常驻，管理收底 ============ -->
+  <aside class="side">
+    <button class="new-chat">＋ 新对话</button>
+
+    <div class="side-scroll">
+      <!-- 对话按项目分组 -->
+      <div class="s-block">
+        <div class="s-head">
+          <span class="s-title">对话</span>
+          <span class="s-tools"><button title="筛选">⌄</button></span>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head"><span class="tw">▾</span>产品设计 <span class="proj-n">2</span></div>
+          <a class="conv active">
+            <span class="c-main">
+              <span class="c-name">AI 原生产品设计工作流</span>
+              <span class="c-sub"><i class="ag ag-cx"></i>codex_fly · 15m</span>
+            </span>
+            <i class="unread">3</i>
+          </a>
+          <a class="conv">
+            <span class="c-main">
+              <span class="c-name">北美大厂产品设计 AI 工作流</span>
+              <span class="c-sub"><i class="ag ag-cx"></i>codex_fly · 31m</span>
+            </span>
+            <i class="unread">1</i>
+          </a>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head"><span class="tw">▾</span>内容运营 <span class="proj-n">1</span></div>
+          <a class="conv">
+            <span class="c-main">
+              <span class="c-name">整理 TikTok 宠物爆款账号</span>
+              <span class="c-sub"><i class="ag ag-cc"></i>claude-code · 6d</span>
+            </span>
+          </a>
+        </div>
+
+        <button class="s-more">加载更多</button>
+      </div>
+
+      <!-- 团队常驻可见 -->
+      <div class="s-block">
+        <div class="s-head">
+          <span class="s-title">我的团队</span>
+          <span class="s-count">3 在线</span>
+        </div>
+        <a class="mem"><i class="ag ag-cc"></i><span class="m-name">claude-code</span><span class="m-loc">本机</span><i class="dot on"></i></a>
+        <a class="mem"><i class="ag ag-cx"></i><span class="m-name">codex_fly</span><span class="m-loc">云端</span><i class="dot on"></i></a>
+        <a class="mem"><i class="ag ag-ca"></i><span class="m-name">claps-agent</span><span class="m-loc">云端</span><i class="dot on"></i></a>
+        <button class="s-add">＋ 接入执行体</button>
+      </div>
+    </div>
+
+    <!-- 低频配置收在底部 -->
+    <div class="s-manage">
+      <button class="mg-head" id="mgToggle"><span class="tw" id="mgTw">▸</span>管理</button>
+      <div class="mg-list hidden" id="mgList">
+        <a class="mg-item">全部任务</a>
+        <a class="mg-item">项目与仓库</a>
+        <a class="mg-item">自动化 · 定时</a>
+        <a class="mg-item">Launch</a>
+        <a class="mg-item">记忆与技能</a>
+        <a class="mg-item">组织与密钥</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ 中栏：唯一的主角 ============ -->
+  <main class="chat">
+    <header class="ch-head">
+      <div class="ch-title">
+        <h1>AI 原生产品设计工作流</h1>
+        <span class="ch-meta"><i class="ag ag-cx"></i>codex_fly · 私聊 · 产品设计</span>
+      </div>
+      <div class="ch-acts">
+        <button title="下载">⤓</button><button title="分享">↗</button><button title="更多">⋯</button>
+      </div>
+    </header>
+
+    <div class="ch-body">
+      <div class="bubble-row">
+        <i class="ag ag-cx big"></i>
+        <div class="bubble">
+          <p><b>关键：</b>一个月内必须有用户反馈的 MVP</p>
+          <p class="sec-t">成熟产品：持续优化</p>
+          <ul>
+            <li>⏱ 周期：6–12+ 个月持续迭代</li>
+            <li>📈 心态：数据驱动、系统性改进、竞争对标</li>
+            <li>🔬 工具：混合方案、微调 + RAG + 小模型</li>
+            <li>👥 团队：8–15 人，分工细化</li>
+          </ul>
+          <p class="sec-t">三个最大的工作流差异</p>
+          <table class="tbl">
+            <thead><tr><th>维度</th><th>新产品</th><th>成熟产品</th></tr></thead>
+            <tbody>
+              <tr><td>工作节奏</td><td>日级别迭代，方向可变</td><td>周级别小版本，变化谨慎</td></tr>
+              <tr><td>风险容错</td><td>允许失败快速重来</td><td>不能停机，灰度发布</td></tr>
+              <tr><td>模型策略</td><td>Prompt 调优 95%</td><td>Prompt 20% + 微调 30% + RAG 30%</td></tr>
+            </tbody>
+          </table>
+          <p>这两种场景需要完全不同的团队心态、工具链和优化方向。你的产品属于哪种呢？</p>
+          <div class="b-foot">
+            <button>⧉</button><button>👍</button><button>👎</button>
+            <span class="b-run">claude-haiku-4.5 · 运行 56 秒</span>
+            <button class="b-task">＋ 转为任务</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="ch-input">
+      <div class="in-box">
+        <textarea placeholder="说出你的目标，或 @ 一位执行体…"></textarea>
+        <div class="in-bar">
+          <div class="in-left"><button>＋</button><button>&lt;/&gt;</button></div>
+          <div class="in-right">
+            <button class="pill">Auto ▾</button>
+            <button class="pill">Claude Haiku 4.5 ▾</button>
+            <button class="send">发送</button>
+          </div>
+        </div>
+      </div>
+      <div class="in-hints"><span>@ 提及执行体</span><span># 建任务</span><span>/ 用技能</span></div>
+    </footer>
+  </main>
+
+  <!-- ============ 右栏：只讲"这个对话"的上下文 ============ -->
+  <aside class="ctx">
+    <div class="ctx-tabs">
+      <button class="ctx-tab active" data-tab="run">执行体</button>
+      <button class="ctx-tab" data-tab="task">任务 <i class="t-n">2</i></button>
+      <button class="ctx-tab" data-tab="art">产出</button>
+      <button class="ctx-tab" data-tab="mem">记忆</button>
+    </div>
+
+    <div class="ctx-body">
+      <!-- 执行体 -->
+      <section class="pane active" data-pane="run">
+        <div class="p-title">正在为这个对话工作</div>
+        <div class="runner">
+          <i class="ag ag-cx big"></i>
+          <div class="r-info">
+            <div class="r-name">codex_fly <i class="dot on"></i></div>
+            <div class="r-sub">Worker 在线 · 心跳 2s</div>
+            <div class="r-sub mono">anthropic/claude-haiku-4.5</div>
+          </div>
+        </div>
+        <div class="p-title">绑定的项目</div>
+        <div class="bind">
+          <span class="bind-name">产品设计</span>
+          <span class="bind-sub">未绑定仓库</span>
+          <button class="mini">绑定 →</button>
+        </div>
+      </section>
+
+      <!-- 任务：列表给所有人，执行图给开发者 -->
+      <section class="pane" data-pane="task">
+        <div class="view-switch">
+          <button class="vs-btn active" data-view="list">列表</button>
+          <button class="vs-btn" data-view="graph">执行图</button>
+        </div>
+
+        <!-- 列表视图 -->
+        <div class="view active" data-view="list">
+          <div class="p-title">从这个对话产生的任务</div>
+          <div class="task-card">
+            <div class="tk-t">整理 AI 原生工作流对照表</div>
+            <div class="tk-m"><i class="ag ag-cx"></i>codex_fly<span class="st review">待审查</span></div>
+          </div>
+          <div class="task-card">
+            <div class="tk-t">补充成熟产品指标体系</div>
+            <div class="tk-m"><i class="ag ag-cc"></i>claude-code<span class="st doing">进行中</span></div>
+          </div>
+          <a class="p-all">查看全部任务 →</a>
+        </div>
+
+        <!-- 执行图视图 -->
+        <div class="view" data-view="graph">
+          <div class="p-title">执行图 · task#128</div>
+          <svg class="graph" viewBox="0 0 268 356" role="img" aria-label="任务执行图">
+            <defs>
+              <marker id="ar" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0 0 L8 4 L0 8 z" fill="#c9c5bc" />
+              </marker>
+            </defs>
+            <g class="edges" stroke="#c9c5bc" stroke-width="1.3" fill="none" marker-end="url(#ar)">
+              <path d="M134 44 V58 H44 V74" /><path d="M134 44 V58 H134 V74" /><path d="M134 44 V58 H224 V74" />
+              <path d="M44 126 V142 H134 V158" /><path d="M134 126 V158" /><path d="M224 126 V142 H134 V158" />
+              <path d="M134 210 V236" />
+              <path d="M134 288 V314" />
+            </g>
+
+            <g class="node done">
+              <rect x="94" y="10" width="80" height="34" rx="9" />
+              <text x="134" y="26" class="n-t">目标</text>
+              <text x="134" y="37" class="n-s">对照表 + 指标</text>
+            </g>
+
+            <g class="node done">
+              <rect x="4" y="76" width="80" height="50" rx="9" />
+              <text x="44" y="93" class="n-t">调研</text>
+              <text x="44" y="105" class="n-s">codex_fly</text>
+              <text x="44" y="117" class="n-m">12.4s ✓</text>
+            </g>
+            <g class="node done">
+              <rect x="94" y="76" width="80" height="50" rx="9" />
+              <text x="134" y="93" class="n-t">文案</text>
+              <text x="134" y="105" class="n-s">claude-code</text>
+              <text x="134" y="117" class="n-m">8.1s ✓</text>
+            </g>
+            <g class="node run">
+              <rect x="184" y="76" width="80" height="50" rx="9" />
+              <text x="224" y="93" class="n-t">数据</text>
+              <text x="224" y="105" class="n-s">claps-agent</text>
+              <text x="224" y="117" class="n-m">运行中 ↻1</text>
+            </g>
+
+            <g class="node wait">
+              <rect x="94" y="160" width="80" height="50" rx="9" />
+              <text x="134" y="177" class="n-t">整合</text>
+              <text x="134" y="189" class="n-s">codex_fly</text>
+              <text x="134" y="201" class="n-m">等待依赖</text>
+            </g>
+
+            <g class="node gate">
+              <rect x="94" y="238" width="80" height="50" rx="9" />
+              <text x="134" y="255" class="n-t">人工审查</text>
+              <text x="134" y="267" class="n-s">你</text>
+              <text x="134" y="279" class="n-m">阻塞式检查点</text>
+            </g>
+
+            <g class="node idle">
+              <rect x="94" y="316" width="80" height="34" rx="9" />
+              <text x="134" y="332" class="n-t">交付</text>
+              <text x="134" y="343" class="n-s">artifact ×2</text>
+            </g>
+          </svg>
+
+          <div class="g-legend">
+            <span><i class="lg done"></i>完成</span><span><i class="lg run"></i>运行</span>
+            <span><i class="lg wait"></i>等待</span><span><i class="lg gate"></i>你的检查点</span>
+          </div>
+          <div class="g-stats">
+            <span>并发 <b>3</b></span><span>检查点 <b>1</b></span>
+            <span>重试 <b>1</b></span><span>耗时 <b>20.5s</b></span>
+          </div>
+          <div class="g-note">人的决策是图里的一个节点，不是图外的旁观者。</div>
+          <a class="p-all">打开完整图 / 导出 DAG →</a>
+        </div>
+      </section>
+
+      <!-- 产出 -->
+      <section class="pane" data-pane="art">
+        <div class="p-title">这个对话的产出</div>
+        <div class="art">
+          <span class="art-ic">DOC</span>
+          <span><b>ai-native-workflow.md</b><br /><span class="art-s">v2 · 10:06 PM</span></span>
+        </div>
+        <div class="art">
+          <span class="art-ic">CSV</span>
+          <span><b>workflow-matrix.csv</b><br /><span class="art-s">v1 · 09:41 PM</span></span>
+        </div>
+      </section>
+
+      <!-- 记忆 -->
+      <section class="pane" data-pane="mem">
+        <div class="p-title">这个对话记住的事</div>
+        <div class="mem-item">产品处于 <b>0→1 新产品</b> 阶段，目标一个月内出 MVP</div>
+        <div class="mem-item">偏好中文输出，表格优先于长段落</div>
+        <a class="p-all">管理全部记忆 →</a>
+      </section>
+    </div>
+  </aside>
+</div>
+
+<script src="workspace.js"></script>
+</body>
+</html>
