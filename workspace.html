@@ -28,21 +28,30 @@
       </button>
       <div class="more-menu hidden" id="moreMenu">
         <div class="mm-label">全局 · 跨所有对话</div>
-        <button class="mm-item" data-view="tasks">
-          <span class="mm-n">全部任务</span><i class="mm-b hot">2 待审查</i>
-        </button>
         <button class="mm-item" data-view="fleet">
-          <span class="mm-n">全部执行体</span><i class="mm-b">3 在线</i>
+          <svg class="mi" viewBox="0 0 16 16"><rect x="2.5" y="4" width="11" height="8.5" rx="2"/><path d="M2.5 7h11"/></svg>
+          <span class="mm-n">执行体</span><i class="mm-b">3 在线</i>
         </button>
         <button class="mm-item" data-view="projects">
+          <svg class="mi" viewBox="0 0 16 16"><path d="M2.5 5.5a1.5 1.5 0 0 1 1.5-1.5h2l1.3 1.6h5.2a1.5 1.5 0 0 1 1.5 1.5v4.4a1.5 1.5 0 0 1-1.5 1.5H4a1.5 1.5 0 0 1-1.5-1.5z"/></svg>
           <span class="mm-n">项目</span><i class="mm-b">2</i>
         </button>
+        <button class="mm-item" data-view="memory">
+          <svg class="mi" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 2.5v11M4 5.2c1.6 1.3 6.4 1.3 8 0M4 10.8c1.6-1.3 6.4-1.3 8 0"/></svg>
+          <span class="mm-n">记忆</span><i class="mm-b">6</i>
+        </button>
+        <button class="mm-item" data-view="launch">
+          <svg class="mi" viewBox="0 0 16 16"><path d="M9.5 3.2c2.2-.8 3.8-.5 3.8-.5s.3 1.6-.5 3.8c-.6 1.7-2 3.2-3.6 4.2l-2-2-2-2c1-1.6 2.5-3 4.3-3.5z"/><path d="M5.2 10.8l-2.4 2.4M6.5 12.5l-1 1M3.5 9.5l-1 1"/></svg>
+          <span class="mm-n">Launch</span>
+        </button>
+        <button class="mm-item" data-view="tasks">
+          <svg class="mi" viewBox="0 0 16 16"><path d="M8 2.2l4.8 1.8v4c0 2.7-2 4.7-4.8 5.8-2.8-1.1-4.8-3.1-4.8-5.8v-4z"/><path d="M6 7.9l1.5 1.5L10.2 6.5"/></svg>
+          <span class="mm-n">Neo 任务</span><i class="mm-b hot">2 待审查</i>
+        </button>
         <button class="mm-item" data-view="autos">
+          <svg class="mi" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.6"/><path d="M8 4.8V8l2.2 1.4"/></svg>
           <span class="mm-n">自动化</span><i class="mm-b">2 启用</i>
         </button>
-        <div class="mm-sep"></div>
-        <button class="mm-item quiet"><span class="mm-n">记忆与技能</span></button>
-        <button class="mm-item quiet"><span class="mm-n">组织与密钥</span></button>
       </div>
     </div>
   </nav>
@@ -179,7 +188,7 @@
             <div class="r-sub mono">anthropic/claude-haiku-4.5</div>
           </div>
         </div>
-        <a class="p-all" data-goto="fleet">在全部执行体里查看 →</a>
+        <a class="p-all" data-goto="fleet">在「执行体」里查看全部 →</a>
         <div class="p-title">绑定的项目</div>
         <div class="bind">
           <span class="bind-name">产品设计</span>
@@ -204,7 +213,7 @@
             <div class="tk-t">补充成熟产品指标体系</div>
             <div class="tk-m"><i class="ag ag-cc"></i>claude-code<span class="st doing">进行中</span></div>
           </div>
-          <a class="p-all" data-goto="tasks">在全部任务里查看 →</a>
+          <a class="p-all" data-goto="tasks">在「Neo 任务」里查看全部 →</a>
         </div>
 
         <div class="view" data-view="graph">
@@ -271,7 +280,7 @@
         <div class="p-title">这个对话记住的事</div>
         <div class="mem-item">产品处于 <b>0→1 新产品</b> 阶段，目标一个月内出 MVP</div>
         <div class="mem-item">偏好中文输出，表格优先于长段落</div>
-        <a class="p-all">管理全部记忆 →</a>
+        <a class="p-all" data-goto="memory">在「记忆」里管理全部 →</a>
       </section>
     </div>
   </aside>
@@ -281,7 +290,7 @@
 <div class="global hidden" id="viewTasks">
   <header class="gl-head">
     <div>
-      <h1>全部任务</h1>
+      <h1>Neo 任务</h1>
       <p class="gl-sub">跨所有对话与项目的任务。这里管全局，单个对话的任务在右栏。</p>
     </div>
     <button class="gl-cta">＋ 新建任务</button>
@@ -392,7 +401,7 @@
 <div class="global hidden" id="viewFleet">
   <header class="gl-head">
     <div>
-      <h1>全部执行体</h1>
+      <h1>执行体</h1>
       <p class="gl-sub">你接入的所有 runtime、心跳与运行状态。单个对话在用哪台，看右栏。</p>
     </div>
     <button class="gl-cta">＋ 接入执行体</button>
@@ -453,6 +462,109 @@
         <div class="pj-repo mono">github.com/acme/content</div>
       </div>
       <div class="pj-card add">＋ 新建项目</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 视图：记忆 ============ -->
+<div class="global hidden" id="viewMemory">
+  <header class="gl-head">
+    <div>
+      <h1>记忆</h1>
+      <p class="gl-sub">执行体跨对话记住的事实与偏好。改这里会影响之后所有对话；单个对话记住了什么，看右栏。</p>
+    </div>
+    <button class="gl-cta">＋ 新增记忆</button>
+  </header>
+
+  <div class="gl-filters">
+    <button class="f-chip active">全部 <i>6</i></button>
+    <button class="f-chip">组织级 <i>2</i></button>
+    <button class="f-chip">项目级 <i>3</i></button>
+    <button class="f-chip">对话级 <i>1</i></button>
+  </div>
+
+  <div class="gl-body">
+    <table class="gl-table">
+      <thead><tr><th>记住的内容</th><th>范围</th><th>来源</th><th>更新</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="gt-name">输出一律用中文，表格优先于长段落</span></td>
+          <td><span class="sc org">组织级</span></td>
+          <td class="gt-src">手动添加</td>
+          <td class="gt-time">3d 前</td>
+          <td><button class="row-cta ghost">编辑</button></td>
+        </tr>
+        <tr>
+          <td><span class="gt-name">产品处于 0→1 阶段，目标一个月出 MVP</span></td>
+          <td><span class="sc proj">项目 · 产品设计</span></td>
+          <td class="gt-src">AI 原生产品设计工作流</td>
+          <td class="gt-time">15m 前</td>
+          <td><button class="row-cta ghost">编辑</button></td>
+        </tr>
+        <tr>
+          <td><span class="gt-name">竞品对标固定看这 3 家：Manus / Devin / Cursor</span></td>
+          <td><span class="sc proj">项目 · 产品设计</span></td>
+          <td class="gt-src">北美大厂产品设计 AI 工作流</td>
+          <td class="gt-time">31m 前</td>
+          <td><button class="row-cta ghost">编辑</button></td>
+        </tr>
+        <tr>
+          <td><span class="gt-name">代码改动必须走 PR，不直接推 main</span></td>
+          <td><span class="sc org">组织级</span></td>
+          <td class="gt-src">手动添加</td>
+          <td class="gt-time">1w 前</td>
+          <td><button class="row-cta ghost">编辑</button></td>
+        </tr>
+        <tr>
+          <td><span class="gt-name">宠物赛道只看北美与东南亚市场</span></td>
+          <td><span class="sc proj">项目 · 内容运营</span></td>
+          <td class="gt-src">整理 TikTok 宠物爆款账号</td>
+          <td class="gt-time">6d 前</td>
+          <td><button class="row-cta ghost">编辑</button></td>
+        </tr>
+        <tr>
+          <td><span class="gt-name">这轮汇报对象是投资人，不是内部团队</span></td>
+          <td><span class="sc conv">对话级</span></td>
+          <td class="gt-src">AI 原生产品设计工作流</td>
+          <td class="gt-time">12m 前</td>
+          <td><button class="row-cta ghost">编辑</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============ 视图：Launch ============ -->
+<div class="global hidden" id="viewLaunch">
+  <header class="gl-head">
+    <div>
+      <h1>Launch</h1>
+      <p class="gl-sub">从模板一键起一套配好的执行体与工作流，直接开工，不用从空对话开始。</p>
+    </div>
+    <button class="gl-cta">＋ 自定义模板</button>
+  </header>
+
+  <div class="gl-body">
+    <div class="lp-note">⚠️ 这一屏我不确定 Launch 在真实产品里的定位，先按「工作流模板」的假设做了。你告诉我实际是什么，我再改。</div>
+    <div class="pj-grid">
+      <div class="pj-card lp">
+        <div class="lp-ic"><i class="ag ag-cx"></i><i class="ag ag-cc"></i></div>
+        <div class="pj-t">竞品调研</div>
+        <div class="pj-s">调研 + 文案两个执行体，产出一页对比报告</div>
+        <button class="row-cta">启动 →</button>
+      </div>
+      <div class="pj-card lp">
+        <div class="lp-ic"><i class="ag ag-cc"></i><i class="ag ag-ca"></i></div>
+        <div class="pj-t">代码评审</div>
+        <div class="pj-s">绑定仓库，改动走 PR，绿灯 CI 才能合并</div>
+        <button class="row-cta">启动 →</button>
+      </div>
+      <div class="pj-card lp">
+        <div class="lp-ic"><i class="ag ag-ca"></i></div>
+        <div class="pj-t">每日简报</div>
+        <div class="pj-s">定时汇总昨日进展与今日阻塞</div>
+        <button class="row-cta">启动 →</button>
+      </div>
     </div>
   </div>
 </div>

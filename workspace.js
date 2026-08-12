@@ -1,12 +1,17 @@
 // ============ 顶栏视图切换：对话 ↔ 全局管理台 ============
 const VIEWS = {
   chat: 'viewChat',
-  tasks: 'viewTasks',
   fleet: 'viewFleet',
   projects: 'viewProjects',
+  memory: 'viewMemory',
+  launch: 'viewLaunch',
+  tasks: 'viewTasks',
   autos: 'viewAutos',
 };
-const LABELS = { tasks: '全部任务', fleet: '全部执行体', projects: '项目', autos: '自动化' };
+const LABELS = {
+  fleet: '执行体', projects: '项目', memory: '记忆',
+  launch: 'Launch', tasks: 'Neo 任务', autos: '自动化',
+};
 const chatBtn = document.querySelector('.nv[data-view="chat"]');
 const moreBtn = document.getElementById('moreBtn');
 const moreMenu = document.getElementById('moreMenu');
