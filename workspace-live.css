@@ -168,6 +168,74 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 canvas.dotfield { display: block; width: 100%; margin-top: 10px; }
 
+/* ===== 模型选择：Auto 自动匹配 + 悬停说明 ===== */
+.model-wrap { position: relative; }
+.model-btn { display: flex; align-items: center; gap: 6px; }
+.auto-spark { width: 6px; height: 6px; border-radius: 50%; background: var(--acc); animation: blip 2.2s ease-in-out infinite; }
+.model-menu {
+  position: absolute; bottom: calc(100% + 10px); right: 0; z-index: 70; width: 268px;
+  background: var(--card); border-radius: var(--r-md); padding: 8px;
+  box-shadow: 0 18px 46px rgba(120, 80, 50, 0.2);
+  animation: pop 0.2s var(--ease);
+}
+.mo-label { font-family: "JetBrains Mono", monospace; font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); padding: 6px 10px 8px; }
+.mo-item { display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; padding: 9px 10px; border-radius: var(--r-sm); position: relative; }
+.mo-item:hover { background: var(--ground-1); }
+.mo-item.on { background: var(--ink); color: #fff; }
+.mo-main { flex: 1; min-width: 0; }
+.mo-n { font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.mo-tag { font-size: 8.5px; font-family: "JetBrains Mono", monospace; background: var(--acc); color: #fff; border-radius: 999px; padding: 2px 7px; }
+.mo-item.on .mo-tag { background: #fff; color: var(--ink); }
+.mo-d { font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+.mo-item.on .mo-d { color: rgba(255,255,255,0.6); }
+.mo-cost { font-family: "JetBrains Mono", monospace; font-size: 9.5px; color: var(--faint); }
+.mo-item.on .mo-cost { color: rgba(255,255,255,0.5); }
+/* 悬停说明卡 */
+.mo-tip {
+  position: absolute; right: calc(100% + 10px); top: -4px; width: 216px;
+  background: var(--ink); color: #fff; border-radius: var(--r-sm); padding: 12px 13px;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.22); pointer-events: none;
+  opacity: 0; transform: translateX(6px); transition: all 0.2s var(--ease);
+}
+.mo-item:hover .mo-tip { opacity: 1; transform: none; }
+.mo-tip b { font-size: 11.5px; display: block; margin-bottom: 5px; }
+.mo-tip p { font-size: 11px; line-height: 1.6; color: rgba(255,255,255,0.72); }
+.mo-tip .tip-row { display: flex; gap: 12px; margin-top: 9px; padding-top: 9px; border-top: 1px solid rgba(255,255,255,0.14); }
+.mo-tip .tip-row span { font-size: 9.5px; color: rgba(255,255,255,0.5); }
+.mo-tip .tip-row b { font-size: 10.5px; margin: 0; color: #fff; display: inline; }
+
+/* 消息里的模型说明 */
+.pick { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: var(--muted); margin-top: 9px; padding-top: 9px; border-top: 1px dashed var(--line); }
+.pick .sp { width: 5px; height: 5px; border-radius: 50%; background: var(--acc); flex: none; }
+.pick b { color: var(--ink); font-weight: 600; }
+
+/* 反馈快捷选项 */
+.fb-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.fb-chip { font-size: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; text-align: left; transition: all 0.2s var(--ease); }
+.fb-chip:hover { border-color: var(--acc); color: var(--acc); transform: translateY(-1px); }
+.fb-chip.go { background: var(--ink); color: #fff; border-color: var(--ink); }
+.fb-chip:disabled { opacity: 0.35; transform: none; }
+
+/* 完成态 / 下一步 */
+.ready { background: var(--ink); color: #fff; border-radius: var(--r-md); padding: 18px 20px; animation: rise 0.5s var(--ease) both; }
+.ready h4 { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.ready p { font-size: 12px; color: rgba(255,255,255,0.66); margin-top: 6px; line-height: 1.65; }
+.next-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.next-btn { font-size: 11.5px; background: rgba(255,255,255,0.12); color: #fff; border-radius: 999px; padding: 7px 14px; }
+.next-btn:hover { background: rgba(255,255,255,0.22); }
+.next-btn.primary { background: var(--acc); }
+
+/* 右栏：任务详情 / 产出版本 */
+.tk-meta { display: flex; flex-wrap: wrap; gap: 5px 10px; margin-top: 9px; font-size: 10px; color: var(--faint); font-family: "JetBrains Mono", monospace; }
+.art-card { background: var(--ground-1); border-radius: var(--r-md); padding: 12px 13px; margin-bottom: 9px; animation: rise 0.45s var(--ease) both; }
+.art-head { display: flex; align-items: center; gap: 10px; }
+.art-v { margin-left: auto; font-family: "JetBrains Mono", monospace; font-size: 9px; background: var(--acc); color: #fff; border-radius: 999px; padding: 2px 8px; }
+.ver { display: flex; gap: 8px; font-size: 10.5px; color: var(--muted); margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line); }
+.ver + .ver { border-top: none; padding-top: 4px; margin-top: 4px; }
+.ver i { font-style: normal; font-family: "JetBrains Mono", monospace; font-size: 9px; color: var(--faint); flex: none; width: 18px; }
+.ver .vd { flex: 1; }
+.ver .vt { color: var(--faint); font-size: 9.5px; }
+
 /* 消息里的进度条：干净的一条，不抢戏 */
 .prog { height: 4px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 11px; }
 .prog i { display: block; height: 100%; width: 0; border-radius: 99px; background: var(--acc); transition: width 0.18s linear; }
