@@ -93,7 +93,12 @@ function tick() {
    ========================================================= */
 const bg = document.getElementById('bgField');
 const bgx = bg.getContext('2d');
-const BG = { mode: 'idle', progress: 0, t: 0, alpha: 0, target: 0 };
+const P = 15;
+const BG = {
+  mode: 'idle', prev: 'idle', mix: 1,   // mix: 上一模式 → 当前模式的交叉淡入
+  p: 0, pTarget: 0,                     // 进度也做缓动，不跳变
+  t: 0, alpha: 0, target: 0.1,
+};
 
 function bgSize() {
   const w = bg.clientWidth, h = bg.clientHeight;
@@ -102,50 +107,85 @@ function bgSize() {
   bg.width = w * dpr; bg.height = h * dpr;
   bgx.setTransform(dpr, 0, 0, dpr, 0, 0);
   BG.w = w; BG.h = h;
+  BG.cols = Math.ceil(w / P); BG.rows = Math.ceil(h / P);
+  // 每颗点自己的相位与快慢，避免整片机械地同步闪
+  BG.phase = new Float32Array(BG.cols * BG.rows);
+  BG.rate = new Float32Array(BG.cols * BG.rows);
+  for (let i = 0; i < BG.phase.length; i++) {
+    BG.phase[i] = Math.random() * 6.283;
+    BG.rate[i] = 0.82 + Math.random() * 0.36;
+  }
   return true;
 }
 function bgSet(mode, progress) {
-  BG.mode = mode;
-  if (progress !== undefined) BG.progress = progress;
-  BG.target = mode === 'idle' ? 0.1 : mode === 'think' ? 0.62 : 0.5;
+  if (progress !== undefined) BG.pTarget = progress;
+  if (mode !== BG.mode) { BG.prev = BG.mode; BG.mode = mode; BG.mix = 0; }
+  BG.target = mode === 'idle' ? 0.09 : mode === 'think' ? 0.6 : 0.5;
 }
-function bgDraw() {
-  if ((!BG.w || bg.width === 0) && !bgSize()) { requestAnimationFrame(bgDraw); return; }
-  const { w, h } = BG;
-  bgx.clearRect(0, 0, w, h);
-  BG.t += REDUCED ? 0 : 0.04;
-  BG.alpha += (BG.target - BG.alpha) * 0.05;
 
-  const P = 15;
-  const cols = Math.ceil(w / P), rows = Math.ceil(h / P);
+// 单一模式的绘制，mult 用来做模式之间的交叉淡入
+function bgPaint(mode, mult) {
+  if (mult <= 0.004) return;
+  const { cols, rows, t } = BG;
+  // 两层呼吸：一层慢的整体起伏，一层更慢的偏移，避免规律感
+  const breath = 0.72 + 0.28 * Math.sin(t * 0.42) * Math.cos(t * 0.17);
+  const base = BG.alpha * mult * breath;
+
   for (let x = 0; x < cols; x++) {
     for (let y = 0; y < rows; y++) {
+      const i = x * rows + y;
+      const ph = BG.phase[i], rt = BG.rate[i];
       const cx = x * P + P / 2, cy = y * P + P / 2;
-      if (BG.mode === 'exec') {
-        // 方块由左向右推进，整块背景就是这次运行的进度
-        const front = BG.progress * cols;
+
+      if (mode === 'exec') {
+        const front = BG.p * cols;
         const d = front - x;
+        // 已走过的区域也在轻轻呼吸，不是死的
+        const idle = 0.5 + 0.5 * Math.sin(t * 1.1 * rt + ph);
         let a, c = COL.acc, s = 3.4;
-        if (d > 1.5) a = 0.5;
-        else if (d > -0.8) a = 0.3 + 0.7 * Math.abs(Math.sin(BG.t * 3 + y * 0.7));
-        else { a = 0.16; c = COL.faint; s = 2.6; }
-        bgx.fillStyle = `rgba(${c},${(a * BG.alpha).toFixed(3)})`;
+        if (d > 2) { a = 0.34 + idle * 0.24; }
+        else if (d > -1.2) { a = 0.34 + 0.66 * (0.5 + 0.5 * Math.sin(t * 2.6 * rt + ph)); s = 3.8; }
+        else { a = 0.1 + idle * 0.08; c = COL.faint; s = 2.6; }
+        const al = a * base;
+        if (al < 0.006) continue;
+        bgx.fillStyle = `rgba(${c},${al.toFixed(3)})`;
         bgx.beginPath();
-        bgx.roundRect ? bgx.roundRect(cx - s / 2, cy - s / 2, s, s, 1.1) : bgx.rect(cx - s / 2, cy - s / 2, s, s);
+        bgx.roundRect ? bgx.roundRect(cx - s / 2, cy - s / 2, s, s, 1.2) : bgx.rect(cx - s / 2, cy - s / 2, s, s);
         bgx.fill();
       } else {
-        // 圆点呼吸波：来回扫，没有方向
-        const wave = Math.sin(x * 0.34 - BG.t * 1.35 + Math.sin(y * 0.5 + BG.t * 0.35));
-        const e = (wave + 1) / 2;
-        const r = 0.7 + e * 1.7;
-        const c = e > 0.74 ? COL.olive : COL.ink;
-        bgx.fillStyle = `rgba(${c},${((0.08 + e * 0.42) * BG.alpha).toFixed(3)})`;
+        // 从一个缓慢漂移的焦点向外扩散的涟漪 = 思考
+        const fx = cols * (0.5 + 0.26 * Math.sin(t * 0.23));
+        const fy = rows * (0.5 + 0.2 * Math.cos(t * 0.19));
+        const dist = Math.hypot(x - fx, (y - fy) * 0.85);
+        const ripple = Math.sin(dist * 0.38 - t * 1.15 + ph * 0.5);
+        const drift = Math.sin(x * 0.2 + y * 0.16 + t * 0.5 * rt);
+        const e = Math.max(0, Math.min(1, (ripple * 0.62 + drift * 0.38 + 1) / 2));
+        const soft = e * e * (3 - 2 * e);            // 平滑，去掉生硬的明暗边
+        const r = 0.55 + soft * 1.85;
+        const c = soft > 0.78 ? COL.olive : COL.ink;
+        const al = (0.05 + soft * 0.42) * base;
+        if (al < 0.006) continue;
+        bgx.fillStyle = `rgba(${c},${al.toFixed(3)})`;
         bgx.beginPath();
         bgx.arc(cx, cy, r, 0, 6.283);
         bgx.fill();
       }
     }
   }
+}
+
+function bgDraw() {
+  if ((!BG.w || bg.width === 0) && !bgSize()) { requestAnimationFrame(bgDraw); return; }
+  bgx.clearRect(0, 0, BG.w, BG.h);
+  BG.t += REDUCED ? 0 : 0.04;
+  // 缓动：透明度、进度、模式交叉，都不跳变
+  BG.alpha += (BG.target - BG.alpha) * 0.035;
+  BG.p += (BG.pTarget - BG.p) * 0.06;
+  BG.mix += (1 - BG.mix) * 0.028;
+  if (BG.mix > 0.996) BG.mix = 1;
+
+  if (BG.mix < 1) bgPaint(BG.prev, 1 - BG.mix);
+  bgPaint(BG.mode, BG.mix);
   requestAnimationFrame(bgDraw);
 }
 
