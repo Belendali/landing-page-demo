@@ -430,10 +430,13 @@ async function runJob(j, alive) {
   gset(j.gid, 'done');
 }
 
-async function run() {
-  const my = ++runToken;
-  const alive = () => my === runToken;
+const GOAL = '帮我把 TikTok 宠物赛道的爆款账号整理一下，出一份下周能用的选题清单。';
+const execList = document.getElementById('execList');
+const execEmpty = document.getElementById('execEmpty');
+const emptyChat = document.getElementById('emptyChat');
+const ecInput = document.getElementById('ecInput');
 
+function resetAll() {
   chatBody.innerHTML = ''; taskList.innerHTML = ''; artList.innerHTML = '';
   Object.keys(artState).forEach((k) => delete artState[k]);
   memList.innerHTML = '<div class="mem-item">宠物赛道只看 <b>北美与东南亚</b> 市场</div>';
@@ -441,12 +444,73 @@ async function run() {
   taskCount.textContent = '0'; gstate = {}; renderGraph();
   setHero(0, '还没有开始'); setStage('待命', [COL.faint, COL.faint]); bgSet('idle');
   ['codex', 'claps', 'claude'].forEach((k) => setExec(k, '待命', '还没有派活', '—'));
+  addPanel.classList.add('hidden'); addBtn.classList.remove('on');
+}
+// 有没有组队，右栏直接看得出来
+function showTeam(on) {
+  execList.classList.toggle('hidden', !on);
+  execEmpty.classList.toggle('hidden', on);
+  document.querySelector('.ctx-tab[data-tab="run"] .t-n').textContent =
+    on ? document.querySelectorAll('#execList .exec-card').length : 0;
+}
+
+/* ---------- 判断：随便聊聊，还是要动手的活 ---------- */
+const TEAM_RE = /整理|清单|报告|分析|调研|抓取|方案|对比|竞品|批量|做一个|搭一个|写一份|排期|重构|上线|测试|脚本|策划|优化/;
+function classify(t) {
+  const s = t.trim();
+  if (/^(你好|您好|hi|hello|hey|在吗|谢谢|嗨|哈喽)/i.test(s)) return { kind: 'simple', why: '打个招呼，直接答就行' };
+  if (TEAM_RE.test(s) || s.length > 26) return { kind: 'team', why: '要好几步、跨角色，值得组队' };
+  return { kind: 'simple', why: '一句话能答完，不用叫人' };
+}
+
+function newChat() {
+  ++runToken;
+  resetAll(); showTeam(false);
+  emptyChat.classList.remove('hidden');
+  ecInput.value = '';
+  document.querySelector('.ch-title h1').innerHTML = '新对话<span class="dotp">.</span>';
+  document.querySelector('.ch-meta').textContent = '还没有执行体';
+  setTimeout(() => ecInput.focus(), 120);
+}
+
+async function start(text) {
+  const my = ++runToken;
+  const alive = () => my === runToken;
+  resetAll(); showTeam(false);
+  emptyChat.classList.add('hidden');
+  const short = text.length > 15 ? text.slice(0, 15) + '…' : text;
+  document.querySelector('.ch-title h1').innerHTML = short + '<span class="dotp">.</span>';
+  document.querySelector('.ch-meta').textContent = '内容运营';
+
+  addRow(`<div class="bub">${text}</div>`, 'you');
+  await sleep(700); if (!alive()) return;
+
+  // 先判断，再决定要不要叫人
+  setStage('判断中', [COL.olive, COL.ink]); bgSet('think');
+  await sleep(950); if (!alive()) return;
+  const c = classify(text);
+
+  if (c.kind === 'simple') return runSimple(text, c, alive);
+  addRow(`<div class="route-note team"><i></i>判断：<b>需要动手的活</b> · ${c.why}</div>`);
   await sleep(500); if (!alive()) return;
+  return runTeam(alive);
+}
 
-  /* ---------- 第一幕：从需求到 v1 ---------- */
-  addRow(`<div class="bub">帮我把 TikTok 宠物赛道的爆款账号整理一下，出一份下周能用的选题清单。</div>`, 'you');
-  await sleep(900); if (!alive()) return;
+/* ---------- 分支 A：简单聊天，不叫人 ---------- */
+async function runSimple(text, c, alive) {
+  addRow(`<div class="route-note"><i></i>判断：<b>简单问答</b> · ${c.why}，没有叫执行体</div>`);
+  await sleep(600); if (!alive()) return;
+  const greet = /^(你好|您好|hi|hello|hey|在吗|谢谢|嗨|哈喽)/i.test(text.trim());
+  const reply = greet
+    ? `我是这个工作台的助手。小事我直接答；碰上要动手的活——比如「整理一批账号出选题清单」——我会自动叫上合适的执行体去做，你只管在关键处点头。<br><br>试试直接说个目标？`
+    : `简单说：<b>萌宠日常</b>（真实感、无剧本）和 <b>拟人剧情</b> 这两类最近涨得最快，前 3 秒有冲突或反差的完播率明显更高。知识科普类涨粉慢但粉丝更精准。<br><br>要把这个做成能直接拍的选题清单，我就得叫上几位了——说一声就行。`;
+  await sleep(300); if (!alive()) return;
+  agentRow('lead', `<div class="bub">${reply}</div>`);
+  setStage('待命', [COL.faint, COL.faint]); setHero(0, '这次没有派活'); bgSet('idle');
+}
 
+/* ---------- 分支 B：需要组队 ---------- */
+async function runTeam(alive) {
   setStage('思考中', [COL.olive, COL.ink]); setHero(4, '正在理解目标'); bgSet('think');
   const think = agentRow('lead', `<div class="bub">
       <b>正在拆解目标</b><span class="ell"><i></i><i></i><i></i></span>
@@ -469,8 +533,22 @@ async function run() {
   await sleep(700); if (!alive()) return;
   think.remove();
 
-  agentRow('lead', `<div class="bub">拆成三步：<b>codex_fly</b> 抓数据 → <b>claps-agent</b> 归类爆款结构 → <b>claude-code</b> 出清单。
-    ${currentModel === 'auto' ? '模型我按每步的活自动挑了，右边可以看。' : ''}</div>`);
+  // 组队：谁被叫进来、为什么，都摆出来
+  const team = [
+    ['codex', 'codex_fly', '抓数据', '要批量取 50 个账号，它跑得快'],
+    ['claps', 'claps-agent', '归类分析', '要做判断和取舍'],
+    ['claude', 'claude-code', '出清单', '要写成能直接用的东西'],
+  ];
+  agentRow('lead', `<div class="team-card">
+      <div class="team-h">这活要 <b>3 步</b>，我从团队里叫了 <b>3 位</b>：</div>
+      ${team.map(([k, n, job, why]) => `<div class="team-row">
+        <i class="ag ${AG[k].cls}"></i><span class="team-n">${n}</span>
+        <span class="team-job">${job}<br><span class="team-why">${why}</span></span></div>`).join('')}
+    </div>`);
+  showTeam(true);
+  await sleep(900); if (!alive()) return;
+
+  agentRow('lead', `<div class="bub">开始了。${currentModel === 'auto' ? '模型我按每步的活自动挑了，右边「执行体」里能看到谁在用什么。' : ''}</div>`);
   addTask('t1', '抓取 50 个宠物账号数据', 'codex');
   addTask('t2', '归类爆款内容结构', 'claps');
   addTask('t3', '产出下周选题清单', 'claude');
@@ -664,11 +742,39 @@ document.querySelectorAll('.vs-btn').forEach((b) => b.addEventListener('click', 
   document.querySelectorAll('.vs-btn').forEach((x) => x.classList.toggle('active', x === b));
   document.querySelectorAll('.tview').forEach((v) => v.classList.toggle('active', v.dataset.v === b.dataset.v));
 }));
-document.getElementById('replayBtn').addEventListener('click', run);
+/* ---------- 新对话 / 空状态输入 ---------- */
+document.querySelector('.new-chat').addEventListener('click', newChat);
+document.getElementById('ecSend').addEventListener('click', () => {
+  const v = ecInput.value.trim();
+  if (v) start(v);
+});
+ecInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const v = ecInput.value.trim();
+    if (v) start(v);
+  }
+});
+document.querySelectorAll('.ec-chip').forEach((c) => c.addEventListener('click', () => start(c.dataset.t)));
+// 已有对话里的输入框
+document.querySelector('.ch-input .send').addEventListener('click', () => {
+  const ta = document.querySelector('.ch-input textarea');
+  const v = ta.value.trim();
+  if (v) { start(v); ta.value = ''; }
+});
+document.querySelector('.ch-input textarea').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const v = e.target.value.trim();
+    if (v) { start(v); e.target.value = ''; }
+  }
+});
+
+document.getElementById('replayBtn').addEventListener('click', () => start(GOAL));
 window.addEventListener('resize', () => { fields.forEach((f) => f.size()); bgSize(); });
 
 mountFields(); renderGraph(); bgSize();
 requestAnimationFrame(tick);
 requestAnimationFrame(drawBlob);
 requestAnimationFrame(bgDraw);
-run();
+start(GOAL);

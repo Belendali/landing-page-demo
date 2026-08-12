@@ -71,6 +71,28 @@
   <!-- ============ 中栏 ============ -->
   <main class="chat">
     <canvas id="bgField" aria-hidden="true"></canvas>
+
+    <!-- 新对话：输入框居中的空状态 -->
+    <div class="empty-chat hidden" id="emptyChat">
+      <div class="ec-inner">
+        <img class="ec-logo" src="logo.svg" alt="" />
+        <h2>今天想做点什么<span class="dotp">？</span></h2>
+        <p class="ec-sub">随便聊聊，或者交给团队一件正经事——我会判断要不要叫人。</p>
+        <div class="ec-box">
+          <textarea id="ecInput" rows="1" placeholder="说点什么，或者直接描述你的目标…"></textarea>
+          <div class="ec-bar">
+            <span class="ec-hint">Enter 发送</span>
+            <button class="send" id="ecSend">发送</button>
+          </div>
+        </div>
+        <div class="ec-chips">
+          <button class="ec-chip" data-t="你好，你能帮我做什么？">你好，你能帮我做什么？</button>
+          <button class="ec-chip" data-t="TikTok 现在什么宠物内容比较火？">TikTok 现在什么宠物内容比较火？</button>
+          <button class="ec-chip hot" data-t="帮我把 TikTok 宠物赛道的爆款账号整理一下，出一份下周能用的选题清单。">帮我整理 TikTok 宠物爆款账号，出下周选题清单</button>
+        </div>
+      </div>
+    </div>
+
     <header class="ch-head">
       <div class="ch-title">
         <h1>TikTok 宠物账号选题<span class="dotp">.</span></h1>
@@ -125,6 +147,8 @@
     <div class="ctx-body">
       <section class="pane active" data-pane="run">
         <div class="p-title">在这个对话里干活的</div>
+        <div class="empty hidden" id="execEmpty">还没有执行体加入。<br />简单聊天不用叫人，需要动手的活我会自动组队。</div>
+        <div id="execList">
         <div class="exec-card" data-mst="codex">
           <div class="ex-top"><i class="ag ag-cx"></i><span class="ex-n">codex_fly</span><span class="ex-st">待命</span></div>
           <div class="ex-task" data-extask>还没有派活</div>
@@ -139,6 +163,7 @@
           <div class="ex-top"><i class="ag ag-cc"></i><span class="ex-n">claude-code</span><span class="ex-st">待命</span></div>
           <div class="ex-task" data-extask>还没有派活</div>
           <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 2s · 本机</span></div>
+        </div>
         </div>
         <button class="add-exec" id="addExecBtn">＋ 从团队里加人</button>
 

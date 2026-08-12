@@ -168,6 +168,62 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 canvas.dotfield { display: block; width: 100%; margin-top: 10px; }
 
+/* ===== 新对话：输入框居中的空状态 ===== */
+.empty-chat {
+  position: absolute; inset: 0; z-index: 3;
+  background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; animation: fade 0.35s var(--ease);
+}
+.ec-inner { width: min(560px, 100%); text-align: center; }
+.ec-logo { width: 40px; height: 40px; margin-bottom: 18px; }
+.ec-inner h2 { font-size: 27px; font-weight: 800; letter-spacing: -1px; }
+.ec-sub { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+.ec-box {
+  background: var(--ground-1); border-radius: var(--r-md);
+  margin-top: 26px; text-align: left;
+  transition: box-shadow 0.25s var(--ease);
+}
+.ec-box:focus-within { box-shadow: 0 0 0 2px var(--acc-soft); }
+.ec-box textarea {
+  width: 100%; min-height: 58px; resize: none; border: none; outline: none; background: none;
+  font-family: inherit; font-size: 14px; line-height: 1.6; padding: 16px 18px 4px; color: var(--ink);
+}
+.ec-box textarea::placeholder { color: var(--faint); }
+.ec-bar { display: flex; align-items: center; padding: 6px 12px 12px 18px; }
+.ec-hint { font-family: "JetBrains Mono", monospace; font-size: 9.5px; color: var(--faint); }
+.ec-bar .send { margin-left: auto; }
+.ec-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 20px; }
+.ec-chip {
+  font-size: 12px; color: var(--muted); background: var(--card);
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 15px;
+  transition: all 0.2s var(--ease);
+}
+.ec-chip:hover { border-color: var(--acc); color: var(--acc); transform: translateY(-1px); }
+.ec-chip.hot { border-color: var(--acc-soft); background: var(--acc-soft); color: #8a4526; }
+
+/* ===== 判断结果 & 组队卡 ===== */
+.route-note {
+  align-self: flex-start; display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--muted);
+  background: var(--ground-1); border-radius: 999px; padding: 7px 14px;
+  animation: rise 0.4s var(--ease) both;
+}
+.route-note i { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); flex: none; }
+.route-note.team i { background: var(--acc); }
+.route-note b { color: var(--ink); font-weight: 600; }
+
+.team-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 15px 16px; box-shadow: 0 3px 12px rgba(120,80,50,0.05); }
+.team-h { font-size: 12.5px; color: var(--muted); margin-bottom: 12px; }
+.team-h b { color: var(--ink); font-weight: 600; }
+.team-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+.team-row + .team-row { border-top: 1px dashed var(--line); }
+.team-n { font-size: 12.5px; font-weight: 600; min-width: 92px; }
+.team-job { font-size: 11.5px; color: var(--ink); flex: 1; }
+.team-why { font-size: 10.5px; color: var(--muted); }
+.team-row .ag { animation: joinPop 0.45s var(--ease) both; }
+@keyframes joinPop { from { transform: scale(0.4); opacity: 0; } }
+
 /* ===== 右栏：这个对话里的执行体 ===== */
 .exec-card { background: var(--ground-1); border-radius: var(--r-md); padding: 13px 14px; margin-bottom: 9px; transition: background 0.3s var(--ease); }
 .exec-card.busy { background: var(--acc-soft); }
