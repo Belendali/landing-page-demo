@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLAPS — 工作台 · 思考与执行</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="workspace-live.css" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+</head>
+<body>
+
+<header class="topbar">
+  <a class="tb-logo" href="index.html"><img src="logo.svg" alt="" /><span>CLAPS</span></a>
+  <button class="tb-org">2214045646yy@gmail.com <span class="caret">▾</span></button>
+  <nav class="tb-nav">
+    <button class="nv primary active" data-view="chat">对话</button>
+    <div class="more-wrap">
+      <button class="nv more" id="moreBtn"><span id="moreLabel">更多</span> <i class="nv-b" id="moreBadge">2</i> <span class="caret">▾</span></button>
+      <div class="more-menu hidden" id="moreMenu">
+        <div class="mm-label">全局 · 跨所有对话</div>
+        <button class="mm-item" data-view="fleet"><span class="mm-n">执行体</span><i class="mm-b">3 在线</i></button>
+        <button class="mm-item" data-view="projects"><span class="mm-n">项目</span><i class="mm-b">2</i></button>
+        <button class="mm-item" data-view="memory"><span class="mm-n">记忆</span><i class="mm-b">6</i></button>
+        <button class="mm-item" data-view="launch"><span class="mm-n">Launch</span></button>
+        <button class="mm-item" data-view="tasks"><span class="mm-n">Neo 任务</span><i class="mm-b hot">2 待审查</i></button>
+        <button class="mm-item" data-view="autos"><span class="mm-n">自动化</span><i class="mm-b">2 启用</i></button>
+      </div>
+    </div>
+  </nav>
+  <div class="tb-right">
+    <button class="tb-search">搜索 <kbd>⌘K</kbd></button>
+    <span class="tb-quota">额度 <b>MAX</b></span>
+    <span class="tb-avatar">2</span>
+  </div>
+</header>
+
+<div class="app" id="viewChat">
+  <!-- ============ 左栏 ============ -->
+  <aside class="side">
+    <button class="new-chat">＋ 新对话</button>
+    <div class="side-scroll">
+      <div class="s-block">
+        <div class="s-head"><span class="s-title">对话</span></div>
+        <div class="proj">
+          <div class="proj-head">内容运营 <span class="proj-n">2</span></div>
+          <a class="conv active">
+            <span class="c-main"><span class="c-name">TikTok 宠物账号选题</span>
+            <span class="c-sub"><i class="ag ag-cx"></i>3 个执行体 · 刚刚</span></span>
+            <i class="live-dot"></i>
+          </a>
+          <a class="conv">
+            <span class="c-main"><span class="c-name">短视频封面风格测试</span>
+            <span class="c-sub"><i class="ag ag-cc"></i>claude-code · 2d</span></span>
+          </a>
+        </div>
+        <div class="proj">
+          <div class="proj-head">产品设计 <span class="proj-n">1</span></div>
+          <a class="conv">
+            <span class="c-main"><span class="c-name">AI 原生产品设计工作流</span>
+            <span class="c-sub"><i class="ag ag-cx"></i>codex_fly · 15m</span></span><i class="unread">3</i>
+          </a>
+        </div>
+      </div>
+
+      <div class="s-block">
+        <div class="s-head"><span class="s-title">我的团队</span><span class="s-count">3 / 3</span></div>
+        <a class="mem"><i class="ag ag-cx"></i><span class="m-name">codex_fly</span><span class="m-st" data-mst="codex">抓取中</span></a>
+        <a class="mem"><i class="ag ag-ca"></i><span class="m-name">claps-agent</span><span class="m-st" data-mst="claps">分析中</span></a>
+        <a class="mem"><i class="ag ag-cc"></i><span class="m-name">claude-code</span><span class="m-st" data-mst="claude">待命</span></a>
+        <button class="s-add">＋ 接入执行体</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ 中栏 ============ -->
+  <main class="chat">
+    <header class="ch-head">
+      <div class="ch-title">
+        <h1>TikTok 宠物账号选题<span class="dotp">.</span></h1>
+        <span class="ch-meta">内容运营 · 你 + 3 个执行体</span>
+      </div>
+      <button class="replay" id="replayBtn">↻ 重新演示</button>
+    </header>
+
+    <div class="ch-body" id="chatBody"></div>
+
+    <footer class="ch-input">
+      <div class="in-box">
+        <textarea placeholder="说出你的目标，或 @ 一位执行体…"></textarea>
+        <div class="in-bar">
+          <div class="in-left"><button>＋</button><button>&lt;/&gt;</button></div>
+          <div class="in-right">
+            <button class="pill">Auto ▾</button>
+            <button class="send">发送</button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ============ 右栏 ============ -->
+  <aside class="ctx">
+    <!-- Clover 式失焦像素卡 -->
+    <div class="hero-card">
+      <div class="hero-top">
+        <canvas class="blob" id="heroBlob" height="132"></canvas>
+        <span class="hero-stage" id="heroStage">待命</span>
+      </div>
+      <div class="hero-foot">
+        <span class="hero-label">本次运行</span>
+        <div class="hero-num"><span id="heroNum">0</span><i>%</i></div>
+        <span class="hero-sub" id="heroSub">还没有开始</span>
+      </div>
+    </div>
+
+    <div class="ctx-tabs">
+      <button class="ctx-tab active" data-tab="task">任务 <i class="t-n" id="taskCount">0</i></button>
+      <button class="ctx-tab" data-tab="graph">执行图</button>
+      <button class="ctx-tab" data-tab="art">产出</button>
+      <button class="ctx-tab" data-tab="mem">记忆</button>
+    </div>
+
+    <div class="ctx-body">
+      <section class="pane active" data-pane="task">
+        <div class="p-title">这个对话产生的任务</div>
+        <div id="taskList"></div>
+        <div class="empty" id="taskEmpty">派出的活会变成任务卡出现在这里</div>
+      </section>
+
+      <section class="pane" data-pane="graph">
+        <div class="p-title">执行图</div>
+        <div id="graphWrap" class="graph-wrap"></div>
+        <div class="g-note">人的决策是图里的一个节点，不是图外的旁观者。</div>
+      </section>
+
+      <section class="pane" data-pane="art">
+        <div class="p-title">这个对话的产出</div>
+        <div id="artList"></div>
+        <div class="empty" id="artEmpty">还没有产出</div>
+      </section>
+
+      <section class="pane" data-pane="mem">
+        <div class="p-title">这个对话记住的事</div>
+        <div id="memList">
+          <div class="mem-item">宠物赛道只看 <b>北美与东南亚</b> 市场</div>
+        </div>
+      </section>
+    </div>
+  </aside>
+</div>
+
+<!-- ============ 全局视图 ============ -->
+<div class="global hidden" id="viewTasks">
+  <header class="gl-head"><div><h1>Neo 任务<span class="dotp">.</span></h1>
+    <p class="gl-sub">跨所有对话与项目的任务。单个对话的任务在右栏。</p></div>
+    <button class="gl-cta">＋ 新建任务</button></header>
+  <div class="stat-row">
+    <div class="stat"><span class="st-l">待我审查</span><b class="st-n hot">2</b><canvas class="dotfield" data-mode="exec" data-progress="0.2" height="30"></canvas></div>
+    <div class="stat"><span class="st-l">进行中</span><b class="st-n">3</b><canvas class="dotfield" data-mode="exec" data-progress="0.45" height="30"></canvas></div>
+    <div class="stat"><span class="st-l">今日完成</span><b class="st-n">18</b><canvas class="dotfield" data-mode="exec" data-progress="0.86" height="30"></canvas></div>
+    <div class="stat"><span class="st-l">阻塞</span><b class="st-n">1</b><canvas class="dotfield" data-mode="exec" data-progress="0.1" height="30"></canvas></div>
+  </div>
+  <div class="gl-body">
+    <table class="gl-table">
+      <thead><tr><th>任务</th><th>来源对话</th><th>执行体</th><th>状态</th><th>更新</th></tr></thead>
+      <tbody>
+        <tr class="need-you"><td><b>宠物赛道选题清单</b> <span class="gt-id">#131</span></td>
+          <td class="gt-src">TikTok 宠物账号选题</td><td><i class="ag ag-cc"></i>claude-code</td>
+          <td><span class="st review">待审查</span></td><td class="gt-time">刚刚</td></tr>
+        <tr class="need-you"><td><b>整理 AI 原生工作流对照表</b> <span class="gt-id">#128</span></td>
+          <td class="gt-src">AI 原生产品设计工作流</td><td><i class="ag ag-cx"></i>codex_fly</td>
+          <td><span class="st review">待审查</span></td><td class="gt-time">2m 前</td></tr>
+        <tr><td><b>爆款结构归类</b> <span class="gt-id">#130</span></td>
+          <td class="gt-src">TikTok 宠物账号选题</td><td><i class="ag ag-ca"></i>claps-agent</td>
+          <td><span class="st done">已完成</span></td><td class="gt-time">刚刚</td></tr>
+        <tr><td><b>账号数据抓取</b> <span class="gt-id">#129</span></td>
+          <td class="gt-src">TikTok 宠物账号选题</td><td><i class="ag ag-cx"></i>codex_fly</td>
+          <td><span class="st done">已完成</span></td><td class="gt-time">刚刚</td></tr>
+        <tr><td><b>周报汇总</b> <span class="gt-id">#126</span></td>
+          <td class="gt-src">自动化 · 每周一 09:00</td><td><i class="ag ag-ca"></i>claps-agent</td>
+          <td><span class="st block">阻塞 · 缺权限</span></td><td class="gt-time">3h 前</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="global hidden" id="viewFleet">
+  <header class="gl-head"><div><h1>执行体<span class="dotp">.</span></h1>
+    <p class="gl-sub">你接入的所有 runtime、心跳与当前负载。</p></div>
+    <button class="gl-cta">＋ 接入执行体</button></header>
+  <div class="gl-body">
+    <div class="fleet-grid">
+      <div class="fl-card">
+        <div class="fl-top"><i class="ag ag-cx big"></i><div><b>codex_fly</b><span>fly.io · 云端</span></div><span class="pulse on"></span></div>
+        <canvas class="dotfield" data-mode="exec" data-progress="0.72" height="36"></canvas>
+        <div class="fl-foot"><span>近 24h</span><b>12 个任务</b></div>
+      </div>
+      <div class="fl-card">
+        <div class="fl-top"><i class="ag ag-ca big"></i><div><b>claps-agent</b><span>k8s · 云端</span></div><span class="pulse on"></span></div>
+        <canvas class="dotfield" data-mode="think" height="36"></canvas>
+        <div class="fl-foot"><span>近 24h</span><b>3 个任务</b></div>
+      </div>
+      <div class="fl-card">
+        <div class="fl-top"><i class="ag ag-cc big"></i><div><b>claude-code</b><span>macbook · 本机</span></div><span class="pulse on"></span></div>
+        <canvas class="dotfield" data-mode="exec" data-progress="0.4" height="36"></canvas>
+        <div class="fl-foot"><span>近 24h</span><b>7 个任务</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="global hidden" id="viewProjects">
+  <header class="gl-head"><div><h1>项目<span class="dotp">.</span></h1><p class="gl-sub">对话、任务与仓库的容器。</p></div>
+    <button class="gl-cta">＋ 新建项目</button></header>
+  <div class="gl-body"><div class="pj-grid">
+    <div class="pj-card"><b class="pj-t">内容运营</b><span class="pj-s">2 个对话 · 3 个任务</span><span class="pj-repo mono">github.com/acme/content</span></div>
+    <div class="pj-card"><b class="pj-t">产品设计</b><span class="pj-s">1 个对话 · 2 个任务</span><span class="pj-repo warn">未绑定仓库</span></div>
+    <div class="pj-card add">＋ 新建项目</div>
+  </div></div>
+</div>
+
+<div class="global hidden" id="viewMemory">
+  <header class="gl-head"><div><h1>记忆<span class="dotp">.</span></h1>
+    <p class="gl-sub">执行体跨对话记住的事实与偏好。</p></div>
+    <button class="gl-cta">＋ 新增记忆</button></header>
+  <div class="gl-body"><table class="gl-table">
+    <thead><tr><th>记住的内容</th><th>范围</th><th>来源</th><th>更新</th></tr></thead>
+    <tbody>
+      <tr><td><b>宠物赛道只看北美与东南亚市场</b></td><td><span class="sc proj">项目 · 内容运营</span></td>
+        <td class="gt-src">TikTok 宠物账号选题</td><td class="gt-time">刚刚</td></tr>
+      <tr><td><b>选题清单要带完播率与涨粉数据</b></td><td><span class="sc conv">对话级</span></td>
+        <td class="gt-src">TikTok 宠物账号选题</td><td class="gt-time">刚刚</td></tr>
+      <tr><td><b>输出一律用中文，表格优先于长段落</b></td><td><span class="sc org">组织级</span></td>
+        <td class="gt-src">手动添加</td><td class="gt-time">3d 前</td></tr>
+      <tr><td><b>代码改动必须走 PR，不直接推 main</b></td><td><span class="sc org">组织级</span></td>
+        <td class="gt-src">手动添加</td><td class="gt-time">1w 前</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="global hidden" id="viewLaunch">
+  <header class="gl-head"><div><h1>Launch<span class="dotp">.</span></h1>
+    <p class="gl-sub">从模板一键起一套配好的执行体与工作流。</p></div>
+    <button class="gl-cta">＋ 自定义模板</button></header>
+  <div class="gl-body"><div class="pj-grid">
+    <div class="pj-card lp"><div class="lp-ic"><i class="ag ag-cx"></i><i class="ag ag-ca"></i><i class="ag ag-cc"></i></div>
+      <b class="pj-t">赛道选题</b><span class="pj-s">抓取 → 归类 → 出清单，一条龙</span><button class="row-cta">启动 →</button></div>
+    <div class="pj-card lp"><div class="lp-ic"><i class="ag ag-cc"></i><i class="ag ag-ca"></i></div>
+      <b class="pj-t">代码评审</b><span class="pj-s">绑定仓库，改动走 PR，绿灯才合</span><button class="row-cta">启动 →</button></div>
+    <div class="pj-card lp"><div class="lp-ic"><i class="ag ag-ca"></i></div>
+      <b class="pj-t">每日简报</b><span class="pj-s">定时汇总昨日进展与今日阻塞</span><button class="row-cta">启动 →</button></div>
+  </div></div>
+</div>
+
+<div class="global hidden" id="viewAutos">
+  <header class="gl-head"><div><h1>自动化<span class="dotp">.</span></h1>
+    <p class="gl-sub">定时触发的任务，结果回到对话。</p></div>
+    <button class="gl-cta">＋ 新建定时任务</button></header>
+  <div class="gl-body"><table class="gl-table">
+    <thead><tr><th>名称</th><th>Cron</th><th>执行体</th><th>下次运行</th><th>启用</th></tr></thead>
+    <tbody>
+      <tr><td><b>每周爆款榜刷新</b></td><td class="mono">0 9 * * MON</td><td><i class="ag ag-cx"></i>codex_fly</td>
+        <td class="gt-time">周一 09:00</td><td><span class="tg on"><i></i></span></td></tr>
+      <tr><td><b>每日竞品监控</b></td><td class="mono">0 9 * * *</td><td><i class="ag ag-ca"></i>claps-agent</td>
+        <td class="gt-time">明天 09:00</td><td><span class="tg on"><i></i></span></td></tr>
+      <tr class="muted"><td><b>夜间数据清洗</b></td><td class="mono">0 2 * * *</td><td><i class="ag ag-cc"></i>claude-code</td>
+        <td class="gt-time">已暂停</td><td><span class="tg"><i></i></span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<script src="workspace-live.js"></script>
+</body>
+</html>
