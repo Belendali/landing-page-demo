@@ -55,6 +55,50 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 8.5px; letter-spacing: 0.8px; text-transform: uppercase;
   color: var(--faint); margin-right: 3px;
 }
+
+/* 「更多」——二级入口全部收在这里，但待办数字跟到按钮上 */
+.more-wrap { position: relative; }
+.nv.more .caret { color: var(--faint); font-size: 9px; }
+.nv.more.open { background: rgba(24, 23, 27, 0.06); color: var(--ink); }
+.nv.more.at-view { background: var(--ink); color: #f5f3ed; }
+.nv.more.at-view .caret { color: rgba(245, 243, 237, 0.6); }
+.more-menu {
+  position: absolute; top: calc(100% + 7px); left: 0; z-index: 60;
+  width: 232px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 7px;
+  box-shadow: 0 16px 40px rgba(24, 23, 27, 0.16);
+  animation: pop 0.2s var(--ease);
+}
+@keyframes pop { from { opacity: 0; transform: translateY(-5px); } }
+.mm-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px; letter-spacing: 0.9px; text-transform: uppercase;
+  color: var(--faint); padding: 6px 9px 7px;
+}
+.mm-item {
+  display: flex; align-items: center; width: 100%;
+  font-size: 12.5px; color: var(--ink);
+  padding: 8px 9px; border-radius: 9px;
+  text-align: left;
+}
+.mm-item:hover { background: var(--bg); }
+.mm-item.active { background: var(--ink); color: #f5f3ed; }
+.mm-item.quiet { color: var(--muted); font-size: 12px; }
+.mm-n { flex: 1; }
+.mm-b {
+  font-style: normal;
+  font-family: "JetBrains Mono", monospace; font-size: 9.5px;
+  color: var(--faint);
+}
+.mm-b.hot {
+  background: rgba(178, 58, 43, 0.1); color: var(--red);
+  border-radius: 999px; padding: 2px 8px;
+}
+.mm-item.active .mm-b { color: rgba(245, 243, 237, 0.65); }
+.mm-sep { height: 1px; background: var(--border); margin: 6px 4px; }
 .nv-b {
   font-style: normal;
   font-family: "JetBrains Mono", monospace; font-size: 9px;

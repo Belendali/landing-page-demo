@@ -21,12 +21,30 @@
 
   <nav class="tb-nav">
     <button class="nv primary active" data-view="chat">对话</button>
-    <span class="nv-sep" aria-hidden="true"></span>
-    <span class="nv-label">全局</span>
-    <button class="nv" data-view="tasks">全部任务 <i class="nv-b">2</i></button>
-    <button class="nv" data-view="fleet">全部执行体</button>
-    <button class="nv" data-view="projects">项目</button>
-    <button class="nv" data-view="autos">自动化</button>
+
+    <div class="more-wrap">
+      <button class="nv more" id="moreBtn">
+        <span id="moreLabel">更多</span> <i class="nv-b" id="moreBadge">2</i> <span class="caret">▾</span>
+      </button>
+      <div class="more-menu hidden" id="moreMenu">
+        <div class="mm-label">全局 · 跨所有对话</div>
+        <button class="mm-item" data-view="tasks">
+          <span class="mm-n">全部任务</span><i class="mm-b hot">2 待审查</i>
+        </button>
+        <button class="mm-item" data-view="fleet">
+          <span class="mm-n">全部执行体</span><i class="mm-b">3 在线</i>
+        </button>
+        <button class="mm-item" data-view="projects">
+          <span class="mm-n">项目</span><i class="mm-b">2</i>
+        </button>
+        <button class="mm-item" data-view="autos">
+          <span class="mm-n">自动化</span><i class="mm-b">2 启用</i>
+        </button>
+        <div class="mm-sep"></div>
+        <button class="mm-item quiet"><span class="mm-n">记忆与技能</span></button>
+        <button class="mm-item quiet"><span class="mm-n">组织与密钥</span></button>
+      </div>
+    </div>
   </nav>
 
   <div class="tb-right">

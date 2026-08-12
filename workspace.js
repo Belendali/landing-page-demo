@@ -6,16 +6,49 @@ const VIEWS = {
   projects: 'viewProjects',
   autos: 'viewAutos',
 };
-const navBtns = document.querySelectorAll('.nv');
+const LABELS = { tasks: '全部任务', fleet: '全部执行体', projects: '项目', autos: '自动化' };
+const chatBtn = document.querySelector('.nv[data-view="chat"]');
+const moreBtn = document.getElementById('moreBtn');
+const moreMenu = document.getElementById('moreMenu');
+const moreLabel = document.getElementById('moreLabel');
+const moreBadge = document.getElementById('moreBadge');
+const mmItems = document.querySelectorAll('.mm-item[data-view]');
+
+function closeMore() {
+  moreMenu.classList.add('hidden');
+  moreBtn.classList.remove('open');
+}
 
 function showView(name) {
   Object.entries(VIEWS).forEach(([key, id]) => {
     document.getElementById(id).classList.toggle('hidden', key !== name);
   });
-  navBtns.forEach((b) => b.classList.toggle('active', b.dataset.view === name));
+  const inChat = name === 'chat';
+  chatBtn.classList.toggle('active', inChat);
+  // 在全局视图里，「更多」按钮直接显示当前所在的位置
+  moreLabel.textContent = inChat ? '更多' : LABELS[name];
+  moreBtn.classList.toggle('at-view', !inChat);
+  moreBadge.classList.toggle('hidden', !inChat);
+  mmItems.forEach((i) => i.classList.toggle('active', i.dataset.view === name));
+  closeMore();
   window.scrollTo(0, 0);
 }
-navBtns.forEach((btn) => btn.addEventListener('click', () => showView(btn.dataset.view)));
+
+chatBtn.addEventListener('click', () => showView('chat'));
+mmItems.forEach((item) => item.addEventListener('click', () => showView(item.dataset.view)));
+document.querySelectorAll('.mm-item.quiet').forEach((i) => i.addEventListener('click', closeMore));
+
+moreBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = moreMenu.classList.toggle('hidden');
+  moreBtn.classList.toggle('open', !open);
+});
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.more-wrap')) closeMore();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMore();
+});
 
 // 右栏的「在全部…里查看」——把局部和全局的关系接起来
 document.querySelectorAll('[data-goto]').forEach((link) =>
