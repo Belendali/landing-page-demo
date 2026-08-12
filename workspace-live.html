@@ -124,18 +124,21 @@
 
   <!-- ============ 右栏 ============ -->
   <aside class="ctx">
-    <!-- Clover 式失焦像素卡 -->
+    <!-- 阶段卡：每个阶段各自的进度，反馈不会让整体倒退 -->
     <div class="hero-card">
       <div class="hero-top">
         <canvas class="blob" id="heroBlob" height="132"></canvas>
         <span class="hero-stage" id="heroStage">待命</span>
+        <span class="stage-badge hidden" id="stageBadge">阶段 1</span>
       </div>
       <div class="hero-foot">
-        <span class="hero-label">本次运行</span>
+        <span class="hero-label">当前阶段</span>
+        <div class="stage-name" id="stageName">还没有开始</div>
         <div class="hero-num"><span id="heroNum">0</span><i>%</i></div>
-        <span class="hero-sub" id="heroSub">还没有开始</span>
+        <span class="hero-sub" id="heroSub">发一条消息就开始</span>
       </div>
     </div>
+    <div class="stage-strip" id="stageStrip"></div>
 
     <div class="ctx-tabs">
       <button class="ctx-tab active" data-tab="run">执行体 <i class="t-n">3</i></button>
@@ -324,6 +327,24 @@
         <td class="gt-time">已暂停</td><td><span class="tg"><i></i></span></td></tr>
     </tbody>
   </table></div>
+</div>
+
+<!-- 文档查阅 -->
+<div class="doc-overlay hidden" id="docOverlay">
+  <div class="doc">
+    <header class="doc-head">
+      <span class="doc-ic">MD</span>
+      <div class="doc-t"><b>weekly-content-angles.md</b><span id="docMeta">v2 · 12 条选题</span></div>
+      <div class="doc-vers" id="docVers"></div>
+      <button class="doc-x" id="docClose">✕</button>
+    </header>
+    <div class="doc-body" id="docBody"></div>
+    <footer class="doc-foot">
+      <span id="docFootNote">存放在任务 #131 · 全程可追溯</span>
+      <button class="doc-btn">复制</button>
+      <button class="doc-btn primary">下载</button>
+    </footer>
+  </div>
 </div>
 
 <script src="workspace-live.js"></script>
