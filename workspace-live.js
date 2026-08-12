@@ -242,6 +242,64 @@ function setExec(k, status, task, model) {
   if (model !== undefined) card.querySelector('[data-exmodel]').textContent = model;
 }
 
+/* ============ 从团队里加人 ============ */
+// 团队里有、但还没进这个对话的执行体
+const POOL = [
+  { id: 'p1', cls: 'ag-cc', name: 'claude-code', loc: '服务器', good: '擅长 代码 / 重构 · 常驻不休眠', hb: '心跳 3s' },
+  { id: 'p2', cls: 'ag-cx', name: 'codex_k8s', loc: '云端', good: '擅长 批处理 / 长任务 · 可并发 8 路', hb: '心跳 4s' },
+  { id: 'p3', cls: 'ag-ca', name: 'claps-agent-2', loc: '云端', good: '擅长 网页调研 / 抓取', hb: '心跳 5s' },
+];
+const joined = new Set();
+const addBtn = document.getElementById('addExecBtn');
+const addPanel = document.getElementById('addPanel');
+const apList = document.getElementById('apList');
+
+function renderPool() {
+  const left = POOL.filter((p) => !joined.has(p.id));
+  apList.innerHTML = left.length ? left.map((p) => `
+    <div class="ap-row" data-p="${p.id}">
+      <i class="ag ${p.cls}"></i>
+      <span class="ap-main">
+        <span class="ap-n">${p.name}<i class="ap-loc">${p.loc}</i></span>
+        <span class="ap-good">${p.good}</span>
+      </span>
+      <button class="ap-join">加入</button>
+    </div>`).join('')
+    : `<div class="ap-empty">团队里的执行体都在这个对话里了。<br>需要更多就接入一台新的。</div>`;
+  apList.querySelectorAll('.ap-join').forEach((b) => b.addEventListener('click', () => {
+    const id = b.closest('.ap-row').dataset.p;
+    const p = POOL.find((x) => x.id === id);
+    joined.add(id);
+    // 加到右栏执行体列表
+    const card = document.createElement('div');
+    card.className = 'exec-card';
+    card.dataset.mst = id;
+    card.innerHTML = `<div class="ex-top"><i class="ag ${p.cls}"></i><span class="ex-n">${p.name}</span><span class="ex-st">待命</span></div>
+      <div class="ex-task" data-extask>刚加入，还没有派活</div>
+      <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">${p.hb} · ${p.loc}</span></div>`;
+    addBtn.before(card);
+    // tab 上的数字跟着走
+    const n = document.querySelector('.ctx-tab[data-tab="run"] .t-n');
+    n.textContent = document.querySelectorAll('.exec-card').length;
+    // 对话里留一条系统提示
+    const note = document.createElement('div');
+    note.className = 'sys-note';
+    note.textContent = `${p.name} 已加入这个对话 · 现在可以 @ 它派活`;
+    chatBody.appendChild(note);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    renderPool();
+  }));
+}
+addBtn.addEventListener('click', () => {
+  const open = addPanel.classList.toggle('hidden');
+  addBtn.classList.toggle('on', !open);
+  if (!open) renderPool();
+});
+document.getElementById('apClose').addEventListener('click', () => {
+  addPanel.classList.add('hidden');
+  addBtn.classList.remove('on');
+});
+
 /* ============ 执行图：两幕 + 反馈回路 ============ */
 const NODES = {
   goal: { x: 100, y: 6, w: 70, h: 28, t: '目标', s: '选题清单' },

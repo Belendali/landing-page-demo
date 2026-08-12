@@ -128,20 +128,25 @@
         <div class="exec-card" data-mst="codex">
           <div class="ex-top"><i class="ag ag-cx"></i><span class="ex-n">codex_fly</span><span class="ex-st">待命</span></div>
           <div class="ex-task" data-extask>还没有派活</div>
-          <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 2s</span></div>
+          <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 2s · 云端</span></div>
         </div>
         <div class="exec-card" data-mst="claps">
           <div class="ex-top"><i class="ag ag-ca"></i><span class="ex-n">claps-agent</span><span class="ex-st">待命</span></div>
           <div class="ex-task" data-extask>还没有派活</div>
-          <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 5s</span></div>
+          <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 5s · 云端</span></div>
         </div>
         <div class="exec-card" data-mst="claude">
           <div class="ex-top"><i class="ag ag-cc"></i><span class="ex-n">claude-code</span><span class="ex-st">待命</span></div>
           <div class="ex-task" data-extask>还没有派活</div>
           <div class="ex-foot"><span data-exmodel>—</span><span class="ex-hb">心跳 2s · 本机</span></div>
         </div>
-        <button class="add-exec">＋ 从团队里加人</button>
-        <a class="p-all" data-goto="fleet">在「执行体」里看全部 →</a>
+        <button class="add-exec" id="addExecBtn">＋ 从团队里加人</button>
+
+        <div class="add-panel hidden" id="addPanel">
+          <div class="ap-head"><span>团队里还没进这个对话的</span><button class="ap-x" id="apClose">✕</button></div>
+          <div id="apList"></div>
+          <button class="ap-new">＋ 接入一台新的执行体</button>
+        </div>
       </section>
 
       <section class="pane" data-pane="task">

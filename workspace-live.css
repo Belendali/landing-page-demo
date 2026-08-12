@@ -181,6 +181,29 @@ canvas.dotfield { display: block; width: 100%; margin-top: 10px; }
 .ex-hb { margin-left: auto; }
 .add-exec { width: 100%; text-align: left; font-size: 11.5px; color: var(--faint); padding: 10px 12px; border-radius: var(--r-md); border: 1.5px dashed var(--line); margin-top: 2px; }
 .add-exec:hover { color: var(--acc); border-color: var(--acc); }
+.add-exec.on { color: var(--acc); border-color: var(--acc); border-style: solid; }
+
+/* 从团队里加人：就地展开，列出还没进这个对话的 */
+.add-panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 10px; margin-top: 9px; box-shadow: 0 6px 20px rgba(120,80,50,0.07); animation: rise 0.3s var(--ease) both; }
+.ap-head { display: flex; align-items: center; padding: 4px 4px 9px; }
+.ap-head span { font-family: "JetBrains Mono", monospace; font-size: 8.5px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--faint); }
+.ap-x { margin-left: auto; font-size: 12px; color: var(--faint); padding: 2px 4px; }
+.ap-x:hover { color: var(--ink); }
+.ap-row { display: flex; align-items: center; gap: 9px; padding: 9px 6px; border-radius: var(--r-sm); }
+.ap-row:hover { background: var(--ground-1); }
+.ap-main { flex: 1; min-width: 0; }
+.ap-n { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.ap-loc { font-family: "JetBrains Mono", monospace; font-size: 8.5px; color: var(--faint); background: var(--ground-1); border-radius: 999px; padding: 2px 7px; font-weight: 400; }
+.ap-good { font-size: 10.5px; color: var(--muted); margin-top: 3px; }
+.ap-join { font-size: 11px; font-weight: 600; color: #fff; background: var(--ink); border-radius: 999px; padding: 5px 13px; flex: none; }
+.ap-join:hover { background: var(--acc); }
+.ap-join:disabled { background: var(--line); color: var(--faint); }
+.ap-new { width: 100%; text-align: left; font-size: 11px; color: var(--faint); padding: 9px 6px 3px; margin-top: 4px; border-top: 1px solid var(--line); }
+.ap-new:hover { color: var(--acc); }
+.ap-empty { font-size: 11px; color: var(--faint); text-align: center; padding: 16px 8px; line-height: 1.7; }
+
+/* 聊天里的系统提示 */
+.sys-note { align-self: center; font-size: 11px; color: var(--muted); background: var(--ground-1); border-radius: 999px; padding: 6px 14px; animation: rise 0.4s var(--ease) both; }
 .tview { display: none; }
 .tview.active { display: block; animation: fade 0.25s var(--ease); }
 .view-switch { display: flex; gap: 3px; background: var(--ground-1); border-radius: 999px; padding: 3px; margin-bottom: 13px; }
